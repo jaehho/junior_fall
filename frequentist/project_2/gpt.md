@@ -1,6 +1,6 @@
 # Logistic Regression
 
-Implement logistic regression with stochastic gradient descent as the optimization algorithm, with and without the L2 regularization penalty.
+Manually implement logistic regression with stochastic gradient descent as the optimization algorithm, with and without the L2 regularization penalty.
 
 Divide the data into roughly 80% train, 10% validation, 10% test; and use the validation dataset to tune any parameters.
 
