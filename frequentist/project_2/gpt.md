@@ -6,7 +6,7 @@ Divide the data into roughly 80% train, 10% validation, 10% test; and use the va
 
 - Plot log likelihood
 - Plot a scatterplot matrix of the South African heart disease data. Each plot shows a pair of risk factors, and the cases and controls are color coded (red is a case).
-- Instead of dropping terms based on Z score, select the optimal model using forward stepwise via cross-validation and report which features are the most important.
+- Select the optimal model using forward stepwise via cross-validation and report which features are the most important.
 - Implement the L1 penalty, and produce a Lasso plot: L1 regularized logistic regression coefficients for the South African heart disease data, plotted as a function of the L1 norm. The variables are all standardized to have unit variance. The profiles are computed exactly at each of the plotted points.
 - Use the validation dataset to select the optimal lambda and determine the most important features. Do those features agree with the stepwise feature selection?
 - Report the % correct for all 4 models (unregularized, stepwise, L1 and L2 regularized) in a table.
