@@ -1,15 +1,9 @@
 # Sampling Rate Conversion
 
-This project requires performing a **sampling rate conversion** on segments of audio signals. The input audio signals are **quantized to 8 bits** and **sampled at 11,025 Hz**, and the task is to convert the signal to a sampling rate of **24,000 Hz** efficiently. A straightforward implementation involves upsampling, lowpass filtering, and downsampling, but you can optimize the system using multistage filter implementation, and polyphase implementation to improve efficiency.
+Design a **sampling rate converter** such that the input signal is **quantized to 8 bits** and **sampled at 11,025 Hz**, and the output is converted to a sampling rate of **24,000 Hz** efficiently. Use multistage, and polyphase interpolation to maximize efficiency of the sampling rate converter.
 
-## Project Goal
-
-Design a **sampling rate converter** producing an output signal with a sampling rate that is $\frac{M}{L}$ times the original rate. Where the input signal is upsampled by $L$, passed through a Low Pass Filter, and then downsampled by $M$
-
-For an ideal sampling rate converter, the lowpass filter in is an ideal filter with cutoff frequency $\omega_c = \min(\frac{\pi}{M}, \frac{\pi}{L})$. Your goal is to design an efficient DSP algorithm to implement this system with the following constraints:
-
-- The system performs the correct sampling rate conversion from **11,025 Hz** to **24,000 Hz**.
-- The lowpass filter approximates an ideal lowpass filter, meeting the following specifications:
+- The system performs sampling rate conversion from **11,025 Hz** to **24,000 Hz**.
+- The Fourier transform of the output approximates an ideal lowpass filter, meeting the following specifications:
 
 | Parameter                       | Value                                   |
 |---------------------------------|-----------------------------------------|
@@ -34,12 +28,6 @@ Utilize these functions in your design
 - **upsample(h ,L)** - returns an upsampled version of `h` by a factor `L`, without any interpolation.
 
 - **downsample(h ,M)** - downsamples `h` by `M`.
-
-## Computation Counts
-
-To measure computational efficiency, you must count the number of **floating point operations (flops)** manually, using a counter in your algorithm. The computation involved in filter design should not be included in the count.
-
----
 
 ## File: db20.m
 
