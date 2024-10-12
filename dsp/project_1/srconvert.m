@@ -1,6 +1,6 @@
 function out = srconvert(in)
     % Sampling rate converter from 11,025 Hz to 24,000 Hz using
-    % multistage and polyphase interpolation approach.
+    % a multistage approach with explicit polyphase decomposition.
     
     % Stage 1: Upsample by 5, downsample by 7
     L1 = 5;  % First upsampling factor
@@ -14,96 +14,43 @@ function out = srconvert(in)
     L3 = 8;  % Third upsampling factor
     M3 = 3;  % Third downsampling factor
     
-    % Step 1: Process the first stage
-    out_stage1 = process_stage(in, L1, M1, 1024, 'Stage 1');
+    % Design low-pass filters for each stage
+    wc1 = min(1/L1, 1/M1);  % Cutoff for first stage
+    h1 = fir1(1024, wc1);   % FIR filter for first stage
     
-    % Step 2: Process the second stage
-    out_stage2 = process_stage(out_stage1, L2, M2, 512, 'Stage 2');
+    wc2 = min(1/L2, 1/M2);  % Cutoff for second stage
+    h2 = fir1(512, wc2);    % FIR filter for second stage
     
-    % Step 3: Process the third stage
-    out = process_stage(out_stage2, L3, M3, 256, 'Stage 3');
-end
+    wc3 = min(1/L3, 1/M3);  % Cutoff for third stage
+    h3 = fir1(256, wc3);    % FIR filter for third stage
+    
+    % Perform multistage conversion
+    out_stage1 = process_stage(in, h1, L1, M1);
+    out_stage2 = process_stage(out_stage1, h2, L2, M2);
+    out = process_stage(out_stage2, h3, L3, M3);
+end    
 
-function out_stage = process_stage(in, L, M, filter_length, stage_name)
-    % Process a single stage of the multistage converter
-    % Inputs:
-    % in           - Input signal for the stage
-    % L            - Upsampling factor
-    % M            - Downsampling factor
-    % filter_length- Length of the FIR filter
-    % stage_name   - Name of the stage for logging and plotting purposes
-
-    % Design low-pass filter for this stage
-    wc = min(pi / L, pi / M);  % Cutoff frequency for this stage
-    h = fir1(filter_length, wc);  % FIR filter of specified length
-    fprintf('%s cutoff frequency: %f (normalized by Nyquist)\n', stage_name, wc);
-    plot_filter(h, [stage_name, ' Filter']);
+function out_stage = process_stage(in_signal, h, L, M)
+    % Polyphase decomposition for upsampling
+    H_poly_up = poly1(h, L);
     
-    % Polyphase decomposition of the filter
-    H_poly = poly1(h, L);  % Polyphase components
-    
-    % Perform polyphase filtering
-    out_stage = polyphase_filter(in, H_poly, L, M);
-    
-    % Plot the signal after this stage
-    plot_signal(out_stage, ['Signal After ', stage_name, ' (Upsample by ', num2str(L), ', Downsample by ', num2str(M), ')']);
-end
-
-function out = polyphase_filter(in, H_poly, L, M)
-    % Polyphase filter for interpolation and decimation.
-    % Inputs:
-    % in      - Input signal
-    % H_poly  - Polyphase components of the FIR filter
-    % L       - Upsampling factor
-    % M       - Downsampling factor
-    
-    % Step 1: Upsample the signal by L (insert zeros)
-    in_upsampled = upsample(in, L);
-    
-    % Step 2: Polyphase filtering using each polyphase component
-    out_upsampled = zeros(size(in_upsampled));
+    % Upsample by L and apply polyphase filtering
+    len_in = length(in_signal);
+    upsampled_signal = zeros(1, len_in * L);
     for i = 1:L
         % Apply each polyphase component to the shifted input signal
-        out_upsampled = out_upsampled + fftfilt(H_poly(i,:), circshift(in_upsampled, [0, i-1]));
+        upsampled_signal(i:L:end) = fftfilt(H_poly_up(i,:), in_signal);
     end
     
-    % Step 3: Downsample the filtered signal by M
-    out = downsample(out_upsampled, M);
-end
-
-function plot_filter(h, title_str)
-    % Plot the frequency response of a filter
-    [H, W] = freqz(h, 1, 1024);
-    figure;
-    plot(W/pi, 20*log10(abs(H)));
-    grid on;
-    xlabel('Normalized Frequency (\omega / \pi)');
-    ylabel('Magnitude (dB)');
-    title(['Frequency Response of ' title_str]);
-    ylim([-100, 10]); % Set y-axis limits for better visualization of attenuation
-end
-
-function plot_signal(signal, title_str)
-    % Plot the signal in time domain and frequency domain
-    figure;
-
-    % Plot time domain
-    subplot(2, 1, 1);
-    plot(signal);
-    grid on;
-    title(['Time Domain of ' title_str]);
-    xlabel('Samples');
-    ylabel('Amplitude');
+    % Polyphase decomposition for downsampling
+    H_poly_down = poly1(h, M);
     
-    % Plot frequency domain
-    subplot(2, 1, 2);
-    N = length(signal);
-    freq_signal = fft(signal);
-    f = (0:N-1)/N; % Normalized frequency from 0 to 1
-    plot(f, 20*log10(abs(freq_signal)));
-    grid on;
-    title(['Frequency Domain of ' title_str]);
-    xlabel('Normalized Frequency');
-    ylabel('Magnitude (dB)');
-    ylim([-100, 50]); % Set y-axis limits for better visualization
+    % Downsample by M using polyphase filtering
+    out_stage = zeros(1, ceil(length(upsampled_signal) / M));
+    for i = 1:M
+        % Apply each polyphase component to the shifted input signal
+        filtered_signal = fftfilt(H_poly_down(i,:), upsampled_signal);
+        downsampled_signal = downsample(filtered_signal, M, i-1);
+        out_stage(1:length(downsampled_signal)) = out_stage(1:length(downsampled_signal)) + downsampled_signal;
+    end
 end
