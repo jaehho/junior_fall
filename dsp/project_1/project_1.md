@@ -1,8 +1,8 @@
 # Sampling Rate Conversion
 
-Design a **sampling rate converter** such that the input signal is **quantized to 8 bits** and **sampled at 11,025 Hz**, and the output is converted to a sampling rate of **24,000 Hz** efficiently. Use multistage, and polyphase interpolation to maximize efficiency of the sampling rate converter.
+Design a **sampling rate converter** such that the input signal is **quantized to 8 bits** and **sampled at 11,025 Hz**, and the output is converted to a sampling rate of **24,000 Hz** efficiently. 
 
-- The system performs sampling rate conversion from **11,025 Hz** to **24,000 Hz**.
+- The sampling rate converter must implement multistage, and polyphase interpolation to maximize efficiency of the sampling rate converter.
 - The Fourier transform of the output approximates an ideal lowpass filter, meeting the following specifications:
 
 | Parameter                       | Value                                   |
@@ -19,8 +19,6 @@ You are to write a MATLAB function `srconvert` such that the command `srconvert(
 
 Utilize these functions in your design
 
-- **examlpf(h, wp, vs)** - allows you to examine the passband ripple, the group delay, as well as the stopband attenuation of the lowpass filter whose impulse response is `h`. It generates three simultaneous plots. The first one zooms in on the passband with cutoff frequency `wp`. The second plot measures the group delay in the passband, and the third plot is simply the magnitude response over the entire frequency range (-π,π). The passband (`wp`) and stopband (`ws`) cutoff frequencies are normalized by π/2. That is, a cutoff frequency at π/2 should be entered as `0.5`.
-
 - **poly1(h, M)** - returns a matrix `E` whose `i`th row corresponds to the `i`th polyphase components of the FIR filter `h`, obtained via type I decomposition with downsampling factor `M`.
 
 - **fftfilt(h , x)** - convolves the signal `x` with the filter `h` using the FFTs. Beware that this command might not always lead to a more efficient implementation than `conv(h , x)`, depending on the length of the signals.
@@ -29,7 +27,9 @@ Utilize these functions in your design
 
 - **downsample(h ,M)** - downsamples `h` by `M`.
 
-## File: db20.m
+## Base Project Files
+
+### File: db20.m
 
 ```matlab
 function y=db20(x)
@@ -38,7 +38,7 @@ y=20*log10(abs(x));
 return;
 ```
 
-## File: examlpf.m
+### File: examlpf.m
 
 ```matlab
 function [maxripple,gdvariation,atten]=examlpf(h,wp,ws)
@@ -91,7 +91,7 @@ ylabel('dB')
 return
 ```
 
-## File: poly1.m
+### File: poly1.m
 
 ```matlab
 function E=poly1(h,M)
@@ -104,7 +104,7 @@ h = [h zeros(1, ceil(length(h)/M)*M-length(h))];
 E = reshape(h, M, length(h)/M);
 ```
 
-## File: verify.m
+### File: verify.m
 
 ```matlab
 function yes = verify(h)

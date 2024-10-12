@@ -1,17 +1,7 @@
-L = 320;
-M = 147;
-
-% Normalized frequencies
-wp = M / L;    % Passband edge (normalized)
-ws = 1.2 * wp;        % Stopband edge (normalized)
-
-% Import the lowpass filter
-h = lpf(wp, ws);
-disp(h(1:10));
-
-% Verify the filter meets the specifications
-[R, G, A] = examlpf(h, wp, ws);
-
-if (R > 0.1) || (A > -70) || (G > 720)
-    error('Filter does not meet the specifications.');
+[in, Fs] = audioread('Wagner.wav');  % Assuming input audio is sampled at 11,025 Hz
+if Fs == 11025
+    out = srconvert(in);  % Convert to 24,000 Hz
+    audiowrite('output_audio.wav', out, 24000);  % Write the output audio
+else
+    error('Input sampling rate must be 11,025 Hz');
 end
