@@ -5,12 +5,12 @@ Design a **sampling rate converter** such that the input signal is **quantized t
 - The sampling rate converter must implement multistage, and polyphase interpolation to maximize efficiency of the sampling rate converter.
 - The Fourier transform of the output approximates an ideal lowpass filter, meeting the following specifications:
 
-| Parameter                       | Value                                   |
-|---------------------------------|-----------------------------------------|
-| Passband Cutoff ($\omega_p$)    | $\frac{11,025}{24,000} \pi$             |
-| Passband Ripple                 | ±0.1 dB or less                         |
-| Stopband Frequency ($\omega_s$) | 1.2 $\omega_p$                          |
-| Stopband Attenuation            | 70 dB or more                           |
+| Parameter                       | Value                                                                              |
+|---------------------------------|------------------------------------------------------------------------------------|
+| Passband Cutoff ($\omega_p$)    | $\frac{11,025}{24,000} \pi$                                                        |
+| Passband Ripple                 | ±0.1 dB or less                                                                    |
+| Stopband Frequency ($\omega_s$) | 1.2 $\omega_p$                                                                     |
+| Stopband Attenuation            | 70 dB or more                                                                      |
 | Phase Constraints               | $\lvert \text{max grpdelay} - \text{min grpdelay} \rvert \leq 720$ in the passband |
 
 You are to write a MATLAB function `srconvert` such that the command `srconvert(in)` takes the input signal `in` with an associated sampling rate of 11,025 Hz, and returns an output signal at a sampling rate of 24,000 Hz. Once your function `srconvert.m` is finalized, run the command `y = srconvert([1 zeros(1,3000)]);`. This will produce a vector `y` which contains the response of your system to a unit impulse. Then call `verify(y)` to verify that your design meets the design specification.
