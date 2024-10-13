@@ -1,6 +1,9 @@
-clear all; close all; clc;
+clear; close all; clc;
 
 y = srconvert([1 zeros(1, 3000)]);
-% freqz(y, 1, 1024)
-figure;
 verify(y);
+
+[in, Fs] = audioread('Wagner.wav');
+out = srconvert(in);
+audiowrite('output_audio.wav', out, 24000);
+sound(out, 24000);
