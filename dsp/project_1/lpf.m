@@ -1,21 +1,11 @@
-function h = lpf(wp, ws)
-    % Desired ripples
-    delta_p = (10^(0.1/20) - 1);   % Passband ripple
-    delta_s = 10^(-70/20);         % Stopband ripple
-    
-    % Weights for the Parks-McClellan algorithm
-    W_p = 1;                      % Passband weight
-    W_s = delta_p / delta_s;      % Stopband weight
-    
-    % Frequency bands and desired amplitudes
-    F = [0 wp ws 1];
-    Mags = [1 1 0 0];
-    W = [W_p W_s];
-    
-    % Filter order
-    N = 128;
-    
-    % Design the filter
-    h = firpm(N, F, Mags, W);
+function h = lpf(L_stage)
+    % Define parameters based on input L_stage
+    Fpass = 1 / L_stage;         % Passband frequency
+    Fstop = Fpass * 1.2;         % Stopband frequency
 
+    % Estimate filter order and other parameters using firpmord
+    c = firpmord([Fpass Fstop], [1 0], [0.001 (10^(-85 / 20))], 2, 'cell');
+    
+    % Design the filter using firpm
+    h = firpm(c{:});
 end
