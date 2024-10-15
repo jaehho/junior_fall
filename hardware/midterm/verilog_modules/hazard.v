@@ -1,3 +1,4 @@
+`timescale 1 ns / 1 ps
 module hazard(input  [4:0] rsD, rtD, rsE, rtE, 
               input  [4:0] writeregE, writeregM, writeregW,
               input        regwriteE, regwriteM, regwriteW,

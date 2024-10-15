@@ -1,3 +1,4 @@
+`timescale 1 ns / 1 ps
 module regfile(input         clk, 
                input         we3, 
                input  [4:0]  ra1, ra2, wa3, 

@@ -1,3 +1,4 @@
+`timescale 1 ns / 1 ps
 module mips(input         clk, reset,
             output [31:0] pcF,
             input  [31:0] instrF,

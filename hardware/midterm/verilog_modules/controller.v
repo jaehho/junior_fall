@@ -1,3 +1,4 @@
+`timescale 1 ns / 1 ps
 module controller(input        clk, reset,
                   input  [5:0] opD, functD,
                   input        flushE, equalD,

@@ -1,3 +1,4 @@
+`timescale 1 ns / 1 ps
 module maindec(input  [5:0] op,
                output       memtoreg, memwrite,
                output       branch, alusrc,

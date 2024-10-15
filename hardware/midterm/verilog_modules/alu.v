@@ -1,3 +1,4 @@
+`timescale 1 ns / 1 ps
 module alu(input      [31:0] a, b, 
            input      [2:0]  alucont, 
            output reg [31:0] result);

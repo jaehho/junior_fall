@@ -1,3 +1,4 @@
+`timescale 1 ns / 1 ps
 module floprc #(parameter WIDTH = 8)
               (input                  clk, reset, clear,
                input      [WIDTH-1:0] d, 
