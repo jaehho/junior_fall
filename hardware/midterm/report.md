@@ -32,7 +32,7 @@ The figure below illustrates the timing diagram differences between single-cycle
 
 ### Program Counter
 
-The program counter is an ordinary 32-bit register. Its output, PC, points to the current instruction. Its input, PC′, indicates the address of the next instruction.
+The program counter is an ordinary 32-bit register. Its output, PC, points to the current instruction. Its input, PC', indicates the address of the next instruction.
 
 ### Instruction Memory
 
@@ -247,13 +247,10 @@ The testbench checks if the processor correctly executes instructions and writes
 
 ### Behavioral vs. Synthesized/Implemented Results
 
-*Behavioral Waveform*
 ![Behavioral Waveform](images/behavioral_waveform.png)
 
-*Synthesized Waveform*
 ![Synthesized Waveform](images/synthesis_waveform.png)
 
-*Implemented Waveform*
 ![Implemented Waveform](images/implementation_waveform.png)
 
 As can be seen from the above waveforms, the synthesized and implemented Waveforms are very similar to the behavorial waveform but takes into consideration realistic delays in paths.
