@@ -1,0 +1,559 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      -->
+<title>Q1</title>
+<meta name="generator" content="MATLAB 24.1">
+<link rel="schema.DC" href="http://purl.org/dc/elements/1.1/">
+<meta name="DC.date" content="2024-09-24">
+<meta name="DC.source" content="Q1.m">
+<style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; }
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+span.typesection { color:#A0522D }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style>
+</head>
+<body>
+<div class="content">
+<h2>Contents</h2>
+<div>
+<ul>
+<li>
+<a href="#2">(a) Create a vector of the complex points in the constellation.</a>
+</li>
+<li>
+<a href="#3">(b) Compute Eb.</a>
+</li>
+<li>
+<a href="#4">(c) Compute bits per dimension for each constellation.</a>
+</li>
+<li>
+<a href="#5">(d) Which of the four is the most power-efficient?</a>
+</li>
+<li>
+<a href="#6">(e) Which of the four is the most spectrally efficient?</a>
+</li>
+<li>
+<a href="#7">(f) Is it true that in every case a higher spectral efficiency corresponds to a higher power requirement? Identify any exceptions to this.</a>
+</li>
+<li>
+<a href="#8">Constellation Plots</a>
+</li>
+</ul>
+</div>
+<pre class="codeinput">
+<span class="comment">%%%% Problem Set I</span>
+<span class="comment">%%%% Q1</span>
+
+<span class="comment">% Jaeho Cho, Sep 23</span>
+
+clc; clear; close <span class="string">all</span>;
+</pre>
+<h2 id="2">(a) Create a vector of the complex points in the constellation.</h2>
+<pre class="codeinput">d_min = 1;
+
+<span class="comment">% QPSK (4-PSK)</span>
+
+M_QPSK = 4;
+theta_QPSK = 2*pi/M_QPSK; <span class="comment">% Angle between points on unit circle</span>
+A_QPSK = d_min / abs(1 - exp(1j * theta_QPSK));
+s_QPSK = A_QPSK * exp(1j * (0:M_QPSK-1) * 2*pi / M_QPSK);
+
+disp(<span class="string">'QPSK Constellation Points:'</span>);
+disp(s_QPSK);
+
+<span class="comment">% 8-PSK</span>
+
+M_8PSK = 8;
+theta_8PSK = 2*pi/M_8PSK; <span class="comment">% Angle between points on unit circle</span>
+A_8PSK = d_min / abs(1 - exp(1j * theta_8PSK));
+s_8PSK = A_8PSK * exp(1j * (0:M_8PSK-1) * 2*pi / M_8PSK);
+
+disp(<span class="string">'8-PSK Constellation Points:'</span>);
+disp(s_8PSK);
+
+<span class="comment">% 16-QAM</span>
+
+M_16QAM = 16;
+I_16QAM = -1.5:1:1.5;
+Q_16QAM = -1.5:1:1.5;
+[I_grid, Q_grid] = meshgrid(I_16QAM, Q_16QAM);
+s_16QAM = I_grid(:) + 1j*Q_grid(:);
+
+disp(<span class="string">'16-QAM Constellation Points:'</span>);
+disp(s_16QAM);
+
+<span class="comment">% 32-QAM</span>
+
+M_32QAM = 32;
+I_32QAM = -2.5:1:2.5;
+Q_32QAM = -2.5:1:2.5;
+[I_grid_32, Q_grid_32] = meshgrid(I_32QAM, Q_32QAM);
+s_32QAM = I_grid_32(:) + 1j*Q_grid_32(:);
+
+<span class="comment">% Exclude the four corners</span>
+corner_indices = find(abs(I_grid_32(:)) == 2.5 &amp; abs(Q_grid_32(:)) == 2.5);
+s_32QAM(corner_indices) = [];
+
+disp(<span class="string">'32-QAM Constellation Points:'</span>);
+disp(s_32QAM);
+</pre>
+<pre class="codeoutput">QPSK Constellation Points:
+   0.7071 + 0.0000i   0.0000 + 0.7071i  -0.7071 + 0.0000i  -0.0000 - 0.7071i
+
+8-PSK Constellation Points:
+  Columns 1 through 4
+
+   1.3066 + 0.0000i   0.9239 + 0.9239i   0.0000 + 1.3066i  -0.9239 + 0.9239i
+
+  Columns 5 through 8
+
+  -1.3066 + 0.0000i  -0.9239 - 0.9239i  -0.0000 - 1.3066i   0.9239 - 0.9239i
+
+16-QAM Constellation Points:
+  -1.5000 - 1.5000i
+  -1.5000 - 0.5000i
+  -1.5000 + 0.5000i
+  -1.5000 + 1.5000i
+  -0.5000 - 1.5000i
+  -0.5000 - 0.5000i
+  -0.5000 + 0.5000i
+  -0.5000 + 1.5000i
+   0.5000 - 1.5000i
+   0.5000 - 0.5000i
+   0.5000 + 0.5000i
+   0.5000 + 1.5000i
+   1.5000 - 1.5000i
+   1.5000 - 0.5000i
+   1.5000 + 0.5000i
+   1.5000 + 1.5000i
+
+32-QAM Constellation Points:
+  -2.5000 - 1.5000i
+  -2.5000 - 0.5000i
+  -2.5000 + 0.5000i
+  -2.5000 + 1.5000i
+  -1.5000 - 2.5000i
+  -1.5000 - 1.5000i
+  -1.5000 - 0.5000i
+  -1.5000 + 0.5000i
+  -1.5000 + 1.5000i
+  -1.5000 + 2.5000i
+  -0.5000 - 2.5000i
+  -0.5000 - 1.5000i
+  -0.5000 - 0.5000i
+  -0.5000 + 0.5000i
+  -0.5000 + 1.5000i
+  -0.5000 + 2.5000i
+   0.5000 - 2.5000i
+   0.5000 - 1.5000i
+   0.5000 - 0.5000i
+   0.5000 + 0.5000i
+   0.5000 + 1.5000i
+   0.5000 + 2.5000i
+   1.5000 - 2.5000i
+   1.5000 - 1.5000i
+   1.5000 - 0.5000i
+   1.5000 + 0.5000i
+   1.5000 + 1.5000i
+   1.5000 + 2.5000i
+   2.5000 - 1.5000i
+   2.5000 - 0.5000i
+   2.5000 + 0.5000i
+   2.5000 + 1.5000i
+
+</pre>
+<h2 id="3">(b) Compute Eb.</h2>
+<pre class="codeinput">
+<span class="comment">% Eb = Es / log2(M)</span>
+<span class="comment">% Function to compute Eb given constellation points and bits per symbol</span>
+compute_Eb = @(s, m) mean(abs(s).^2) / log2(m);
+
+<span class="comment">% Compute Eb for each constellation</span>
+Eb_QPSK = compute_Eb(s_QPSK, M_QPSK);
+Eb_8PSK = compute_Eb(s_8PSK, M_8PSK);
+Eb_16QAM = compute_Eb(s_16QAM, M_16QAM);
+Eb_32QAM = compute_Eb(s_32QAM, M_32QAM);
+
+<span class="comment">% Display Eb values</span>
+fprintf(<span class="string">'E_b for QPSK: %f\n'</span>, Eb_QPSK);
+fprintf(<span class="string">'E_b for 8-PSK: %f\n'</span>, Eb_8PSK);
+fprintf(<span class="string">'E_b for 16-QAM: %f\n'</span>, Eb_16QAM);
+fprintf(<span class="string">'E_b for 32-QAM: %f\n'</span>, Eb_32QAM);
+</pre>
+<pre class="codeoutput">E_b for QPSK: 0.250000
+E_b for 8-PSK: 0.569036
+E_b for 16-QAM: 0.625000
+E_b for 32-QAM: 1.000000
+</pre>
+<h2 id="4">(c) Compute bits per dimension for each constellation.</h2>
+<pre class="codeinput">
+<span class="comment">% Bits per dimension = log2(M)/2</span>
+
+bpd_QPSK = log2(M_QPSK) / 2;
+bpd_8PSK = log2(M_8PSK) / 2;
+bpd_16QAM = log2(M_16QAM) / 2;
+bpd_32QAM = log2(M_32QAM) / 2;
+
+fprintf(<span class="string">'Bits per dimension for QPSK: %f\n'</span>, bpd_QPSK);
+fprintf(<span class="string">'Bits per dimension for 8-PSK: %f\n'</span>, bpd_8PSK);
+fprintf(<span class="string">'Bits per dimension for 16-QAM: %f\n'</span>, bpd_16QAM);
+fprintf(<span class="string">'Bits per dimension for 32-QAM: %f\n'</span>, bpd_32QAM);
+</pre>
+<pre class="codeoutput">Bits per dimension for QPSK: 1.000000
+Bits per dimension for 8-PSK: 1.500000
+Bits per dimension for 16-QAM: 2.000000
+Bits per dimension for 32-QAM: 2.500000
+</pre>
+<h2 id="5">(d) Which of the four is the most power-efficient?</h2>
+<pre class="codeinput">
+<span class="comment">% The most power-efficient modulation is the one with the lowest Eb.</span>
+
+Eb_values = [Eb_QPSK, Eb_8PSK, Eb_16QAM, Eb_32QAM];
+modulations = {<span class="string">'QPSK'</span>, <span class="string">'8-PSK'</span>, <span class="string">'16-QAM'</span>, <span class="string">'32-QAM'</span>};
+
+[~, idx_min_Eb] = min(Eb_values);
+fprintf(<span class="string">'\nThe most power-efficient modulation is %s.\n'</span>, modulations{idx_min_Eb});
+</pre>
+<pre class="codeoutput">
+The most power-efficient modulation is QPSK.
+</pre>
+<h2 id="6">(e) Which of the four is the most spectrally efficient?</h2>
+<pre class="codeinput">
+<span class="comment">% The most spectrally efficient modulation is the one with the highest bits per dimension.</span>
+
+bpd_values = [bpd_QPSK, bpd_8PSK, bpd_16QAM, bpd_32QAM];
+
+[~, idx_max_bpd] = max(bpd_values);
+fprintf(<span class="string">'\nThe most spectrally efficient modulation is %s.\n'</span>, modulations{idx_max_bpd});
+</pre>
+<pre class="codeoutput">
+The most spectrally efficient modulation is 32-QAM.
+</pre>
+<h2 id="7">(f) Is it true that in every case a higher spectral efficiency corresponds to a higher power requirement? Identify any exceptions to this.</h2>
+<pre class="codeinput">fprintf(<span class="string">'\nComparison of Modulation Schemes:\n'</span>);
+<span class="keyword">for</span> i = 1:length(modulations)
+    fprintf(<span class="string">'%s: E_b = %f, Bits per symbol per dimension = %f\n'</span>, <span class="keyword">...</span>
+        modulations{i}, Eb_values(i), bpd_values(i));
+<span class="keyword">end</span>
+
+fprintf(<span class="string">'\nRelationship between spectral efficiency and power requirement:\n'</span>);
+<span class="keyword">for</span> i = 1:length(modulations)-1
+    delta_bps = bpd_values(i+1) - bpd_values(i);
+    delta_Eb = Eb_values(i+1) - Eb_values(i);
+    fprintf(<span class="string">'From %s to %s: Δbps = %f, ΔE_b = %f\n'</span>, <span class="keyword">...</span>
+        modulations{i}, modulations{i+1}, delta_bps, delta_Eb);
+<span class="keyword">end</span>
+
+<span class="comment">% While higher spectral efficiency often requires higher power, this is not always proportionally true.</span>
+<span class="comment">% The increase in Eb from 8-PSK to 16-QAM is minimal compared to the increase in spectral efficiency</span>
+<span class="comment">% Therefore it is not always true that a higher spectral efficiency corresponds to a higher power requirement.</span>
+</pre>
+<pre class="codeoutput">
+Comparison of Modulation Schemes:
+QPSK: E_b = 0.250000, Bits per symbol per dimension = 1.000000
+8-PSK: E_b = 0.569036, Bits per symbol per dimension = 1.500000
+16-QAM: E_b = 0.625000, Bits per symbol per dimension = 2.000000
+32-QAM: E_b = 1.000000, Bits per symbol per dimension = 2.500000
+
+Relationship between spectral efficiency and power requirement:
+From QPSK to 8-PSK: Δbps = 0.500000, ΔE_b = 0.319036
+From 8-PSK to 16-QAM: Δbps = 0.500000, ΔE_b = 0.055964
+From 16-QAM to 32-QAM: Δbps = 0.500000, ΔE_b = 0.375000
+</pre>
+<h2 id="8">Constellation Plots</h2>
+<pre class="codeinput">figure;
+
+<span class="comment">% QPSK</span>
+subplot(2,2,1);
+plot(real(s_QPSK), imag(s_QPSK), <span class="string">'kx'</span>);
+title(<span class="string">'QPSK'</span>);
+grid <span class="string">on</span>;
+axis <span class="string">equal</span>;
+axh = gca;
+axh.XAxisLocation = <span class="string">'origin'</span>;
+axh.YAxisLocation = <span class="string">'origin'</span>;
+axh.Box = <span class="string">'off'</span>;
+
+<span class="comment">% 8-PSK</span>
+subplot(2,2,2);
+plot(real(s_8PSK), imag(s_8PSK), <span class="string">'kx'</span>);
+title(<span class="string">'8-PSK'</span>);
+grid <span class="string">on</span>;
+axis <span class="string">equal</span>;
+axh = gca;
+axh.XAxisLocation = <span class="string">'origin'</span>;
+axh.YAxisLocation = <span class="string">'origin'</span>;
+axh.Box = <span class="string">'off'</span>;
+
+<span class="comment">% 16-QAM</span>
+subplot(2,2,3);
+plot(real(s_16QAM), imag(s_16QAM), <span class="string">'kx'</span>);
+title(<span class="string">'16-QAM'</span>);
+grid <span class="string">on</span>;
+axis <span class="string">equal</span>;
+axh = gca;
+axh.XAxisLocation = <span class="string">'origin'</span>;
+axh.YAxisLocation = <span class="string">'origin'</span>;
+axh.Box = <span class="string">'off'</span>;
+
+<span class="comment">% 32-QAM</span>
+subplot(2,2,4);
+plot(real(s_32QAM), imag(s_32QAM), <span class="string">'kx'</span>);
+title(<span class="string">'32-QAM'</span>);
+grid <span class="string">on</span>;
+axis <span class="string">equal</span>;
+axh = gca;
+axh.XAxisLocation = <span class="string">'origin'</span>;
+axh.YAxisLocation = <span class="string">'origin'</span>;
+axh.Box = <span class="string">'off'</span>;
+</pre>
+<img vspace="5" hspace="5" src="Q1_01.png" alt=""> <p class="footer">
+<br>
+<a href="https://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2024a</a>
+<br>
+</p>
+</div>
+<!--
+##### SOURCE BEGIN #####
+%%%% Problem Set I
+%%%% Q1
+
+% Jaeho Cho, Sep 23
+
+clc; clear; close all;
+
+%% (a) Create a vector of the complex points in the constellation.
+
+d_min = 1;
+
+% QPSK (4-PSK)
+
+M_QPSK = 4;
+theta_QPSK = 2*pi/M_QPSK; % Angle between points on unit circle
+A_QPSK = d_min / abs(1 - exp(1j * theta_QPSK));
+s_QPSK = A_QPSK * exp(1j * (0:M_QPSK-1) * 2*pi / M_QPSK);
+
+disp('QPSK Constellation Points:');
+disp(s_QPSK);
+
+% 8-PSK
+
+M_8PSK = 8;
+theta_8PSK = 2*pi/M_8PSK; % Angle between points on unit circle
+A_8PSK = d_min / abs(1 - exp(1j * theta_8PSK));
+s_8PSK = A_8PSK * exp(1j * (0:M_8PSK-1) * 2*pi / M_8PSK);
+
+disp('8-PSK Constellation Points:');
+disp(s_8PSK);
+
+% 16-QAM
+
+M_16QAM = 16;
+I_16QAM = -1.5:1:1.5;
+Q_16QAM = -1.5:1:1.5;
+[I_grid, Q_grid] = meshgrid(I_16QAM, Q_16QAM);
+s_16QAM = I_grid(:) + 1j*Q_grid(:);
+
+disp('16-QAM Constellation Points:');
+disp(s_16QAM);
+
+% 32-QAM
+
+M_32QAM = 32;
+I_32QAM = -2.5:1:2.5;
+Q_32QAM = -2.5:1:2.5;
+[I_grid_32, Q_grid_32] = meshgrid(I_32QAM, Q_32QAM);
+s_32QAM = I_grid_32(:) + 1j*Q_grid_32(:);
+
+% Exclude the four corners
+corner_indices = find(abs(I_grid_32(:)) == 2.5 & abs(Q_grid_32(:)) == 2.5);
+s_32QAM(corner_indices) = [];
+
+disp('32-QAM Constellation Points:');
+disp(s_32QAM);
+
+%% (b) Compute Eb.
+
+% Eb = Es / log2(M)
+% Function to compute Eb given constellation points and bits per symbol
+compute_Eb = @(s, m) mean(abs(s).^2) / log2(m);
+
+% Compute Eb for each constellation
+Eb_QPSK = compute_Eb(s_QPSK, M_QPSK);
+Eb_8PSK = compute_Eb(s_8PSK, M_8PSK);
+Eb_16QAM = compute_Eb(s_16QAM, M_16QAM);
+Eb_32QAM = compute_Eb(s_32QAM, M_32QAM);
+
+% Display Eb values
+fprintf('E_b for QPSK: %f\n', Eb_QPSK);
+fprintf('E_b for 8-PSK: %f\n', Eb_8PSK);
+fprintf('E_b for 16-QAM: %f\n', Eb_16QAM);
+fprintf('E_b for 32-QAM: %f\n', Eb_32QAM);
+
+%% (c) Compute bits per dimension for each constellation.
+
+% Bits per dimension = log2(M)/2 
+
+bpd_QPSK = log2(M_QPSK) / 2;
+bpd_8PSK = log2(M_8PSK) / 2;
+bpd_16QAM = log2(M_16QAM) / 2;
+bpd_32QAM = log2(M_32QAM) / 2;
+
+fprintf('Bits per dimension for QPSK: %f\n', bpd_QPSK);
+fprintf('Bits per dimension for 8-PSK: %f\n', bpd_8PSK);
+fprintf('Bits per dimension for 16-QAM: %f\n', bpd_16QAM);
+fprintf('Bits per dimension for 32-QAM: %f\n', bpd_32QAM);
+
+%% (d) Which of the four is the most power-efficient?
+
+% The most power-efficient modulation is the one with the lowest Eb.
+
+Eb_values = [Eb_QPSK, Eb_8PSK, Eb_16QAM, Eb_32QAM];
+modulations = {'QPSK', '8-PSK', '16-QAM', '32-QAM'};
+
+[~, idx_min_Eb] = min(Eb_values);
+fprintf('\nThe most power-efficient modulation is %s.\n', modulations{idx_min_Eb});
+
+%% (e) Which of the four is the most spectrally efficient?
+
+% The most spectrally efficient modulation is the one with the highest bits per dimension.
+
+bpd_values = [bpd_QPSK, bpd_8PSK, bpd_16QAM, bpd_32QAM];
+
+[~, idx_max_bpd] = max(bpd_values);
+fprintf('\nThe most spectrally efficient modulation is %s.\n', modulations{idx_max_bpd});
+
+%% (f) Is it true that in every case a higher spectral efficiency corresponds to a higher power requirement? Identify any exceptions to this.
+
+fprintf('\nComparison of Modulation Schemes:\n');
+for i = 1:length(modulations)
+    fprintf('%s: E_b = %f, Bits per symbol per dimension = %f\n', ...
+        modulations{i}, Eb_values(i), bpd_values(i));
+end
+
+fprintf('\nRelationship between spectral efficiency and power requirement:\n');
+for i = 1:length(modulations)-1
+    delta_bps = bpd_values(i+1) - bpd_values(i);
+    delta_Eb = Eb_values(i+1) - Eb_values(i);
+    fprintf('From %s to %s: Δbps = %f, ΔE_b = %f\n', ...
+        modulations{i}, modulations{i+1}, delta_bps, delta_Eb);
+end
+
+% While higher spectral efficiency often requires higher power, this is not always proportionally true.
+% The increase in Eb from 8-PSK to 16-QAM is minimal compared to the increase in spectral efficiency
+% Therefore it is not always true that a higher spectral efficiency corresponds to a higher power requirement.
+
+%% Constellation Plots
+
+figure;
+
+% QPSK
+subplot(2,2,1);
+plot(real(s_QPSK), imag(s_QPSK), 'kx');
+title('QPSK');
+grid on;
+axis equal;
+axh = gca;
+axh.XAxisLocation = 'origin';
+axh.YAxisLocation = 'origin';
+axh.Box = 'off';
+
+% 8-PSK
+subplot(2,2,2);
+plot(real(s_8PSK), imag(s_8PSK), 'kx');
+title('8-PSK');
+grid on;
+axis equal;
+axh = gca;
+axh.XAxisLocation = 'origin';
+axh.YAxisLocation = 'origin';
+axh.Box = 'off';
+
+% 16-QAM
+subplot(2,2,3);
+plot(real(s_16QAM), imag(s_16QAM), 'kx');
+title('16-QAM');
+grid on;
+axis equal;
+axh = gca;
+axh.XAxisLocation = 'origin';
+axh.YAxisLocation = 'origin';
+axh.Box = 'off';
+
+% 32-QAM
+subplot(2,2,4);
+plot(real(s_32QAM), imag(s_32QAM), 'kx');
+title('32-QAM');
+grid on;
+axis equal;
+axh = gca;
+axh.XAxisLocation = 'origin';
+axh.YAxisLocation = 'origin';
+axh.Box = 'off';
+
+##### SOURCE END #####
+-->
+</body>
+</html>
