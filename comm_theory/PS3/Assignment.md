@@ -1,19 +1,19 @@
-**4.** Consider a binary input, binary output channel as shown below. The probability of a \(0 \rightarrow 1\) error is \(p\), and the probability of a \(1 \rightarrow 0\) error is \(2p\). Obviously, take \(p < 1/2\). Let \(\pi_0 = P(X = 0)\). In this problem, compute entropy in nats, that is, use \(\ln\) and not \(\log_2\).
+Recall the rate-distortion function for a Gaussian source with variance \( \sigma^2 \) (using square error as the distortion) is:
 
-**(a)** Compute \(p y_0 = P(Y = 0)\).
-
-**(b)** Obtain a formula for \(I(X, Y)\) in the form:
 \[
-I(X, Y) = \varphi(a) + b \varphi(p) + c \varphi(2p)
+R_g(D) = \begin{cases} 
+\frac{1}{2} \log_2 \left( \frac{\sigma^2}{D} \right) & D \leq \sigma^2 \\
+0 & D > \sigma^2 
+\end{cases}
 \]
-where \(\varphi(\cdot)\) is the binary entropy function, and \(a\) involves both \(\pi_0\) and \(p\), and \(b, c\) only involve \(\pi_0\).
 
-**(c)** Compute a formula for the derivative of the binary entropy function, \(\varphi'(x)\).
+You will explore the water filling algorithm in this problem. Let \( \vec{X} \) be a real Gaussian vector with \( N \) independent components with respective variances \( \sigma_i^2 \). As you recall in the water filling algorithm, we select a fixed \( \lambda \), and assign distortion to the \( i \)th component \( D_i = \lambda \) if \( \sigma_i^2 > \lambda \), and otherwise \( D_i = \sigma_i^2 \). The corresponding rate will be \( R_i = R_g(\lambda) \) or \( R_i = 0 \), respectively. With total distortion \( D = \sum D_i \), \( R = \sum R_i \), the resulting \( (R, D) \) will be optimal. The problem is we do not know in advance which value of \( \lambda \) will yield a desired value for \( D \) or for \( R \). We basically have to iterate through several choices of \( \lambda \) to try to achieve a desired target value for \( D \) or \( R \).
 
-**(d)** We can find the channel capacity by setting \(\partial I / \partial p = 0\) or \(\partial I / \partial \pi_0 = 0\): which?
+Here, consider the following situation:
 
-**(e)** Set up this equation, but do not try to simplify it or solve it. Just get it to the point where you can code this formula into MATLAB.
+- We have \( \sigma_1^2 = 1 \), \( \sigma_2^2 = 0.8 \), \( \sigma_3^2 = 0.1 \), \( \sigma_4^2 = 0.01 \).
+- We want \( R \leq 5 \).
 
-**(f)** You can either find an explicit formula for \(\pi_0\) in terms of \(p\), or use a nonlinear equation solver. Either way, from optimal \(\pi_0\), you can compute the channel capacity. Write MATLAB code to compute and graph \(C\) in bits (hint: \(\log_2 x = \ln x / \ln 2\)) and graph \(C\) versus \(p\), and optimal \(\pi_0\) versus \(p\). **Remark:** You may get numerical problems near endpoints (e.g., \(\log 0\) blows up), so stay away from \(p = 0\) and \(p = 1/2\), at least initially. I want to see nice graphs, computed at least at 100 points.
+The idea is to iterate over \( \lambda \) so we get \( R \) close to, but not over, 5. The first thing to recognize is that decreasing \( \lambda \) increases \( R \) (for example, if \( \lambda > \max \sigma_i^2 \) then we get \( R = 0 \)!). We want to achieve a condition where \( \lambda_1 \) gives \( R < 5 \) and \( \lambda_2 \) gives \( R > 5 \), then try the midpoint value \( (\lambda_1 + \lambda_2) / 2 \), and iterate. That is, at each step, we have two choices for \( \lambda \) that straddle the target value for \( R \). This is called the bisection method.
 
-![channel](channel.png)
+Write MATLAB code to implement this algorithm, and run it until we get \( 4.9 < R \leq 5 \). Once you find your final choice for \( \lambda \), specify the \( (R, D) \) point.
