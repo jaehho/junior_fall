@@ -1,0 +1,78 @@
+{
+  "design": {
+    "design_info": {
+      "boundary_crc": "0xC1FFE2E5432B8064",
+      "device": "xc7z020clg484-1",
+      "gen_directory": "../../../../project_2.gen/sources_1/bd/design_1",
+      "name": "design_1",
+      "rev_ctrl_bd_flag": "RevCtrlBdOff",
+      "synth_flow_mode": "Hierarchical",
+      "tool_version": "2024.1.2"
+    },
+    "design_tree": {
+      "axi_quad_spi_0": ""
+    },
+    "interface_ports": {
+      "spi_rtl": {
+        "mode": "Master",
+        "vlnv_bus_definition": "xilinx.com:interface:spi:1.0",
+        "vlnv": "xilinx.com:interface:spi_rtl:1.0",
+        "port_maps": {
+          "IO0_I": {
+            "physical_name": "spi_rtl_io0_i",
+            "direction": "I"
+          },
+          "IO0_O": {
+            "physical_name": "spi_rtl_io0_o",
+            "direction": "O"
+          },
+          "IO0_T": {
+            "physical_name": "spi_rtl_io0_t",
+            "direction": "O"
+          },
+          "IO1_I": {
+            "physical_name": "spi_rtl_io1_i",
+            "direction": "I"
+          },
+          "IO1_O": {
+            "physical_name": "spi_rtl_io1_o",
+            "direction": "O"
+          },
+          "IO1_T": {
+            "physical_name": "spi_rtl_io1_t",
+            "direction": "O"
+          },
+          "SS_I": {
+            "physical_name": "spi_rtl_ss_i",
+            "direction": "I"
+          },
+          "SS_O": {
+            "physical_name": "spi_rtl_ss_o",
+            "direction": "O"
+          },
+          "SS_T": {
+            "physical_name": "spi_rtl_ss_t",
+            "direction": "O"
+          }
+        }
+      }
+    },
+    "components": {
+      "axi_quad_spi_0": {
+        "vlnv": "xilinx.com:ip:axi_quad_spi:3.2",
+        "ip_revision": "31",
+        "xci_name": "design_1_axi_quad_spi_0_0",
+        "xci_path": "ip\\design_1_axi_quad_spi_0_0\\design_1_axi_quad_spi_0_0.xci",
+        "inst_hier_path": "axi_quad_spi_0"
+      }
+    },
+    "interface_nets": {
+      "axi_quad_spi_0_SPI_0": {
+        "interface_ports": [
+          "spi_rtl",
+          "axi_quad_spi_0/SPI_0"
+        ]
+      }
+    }
+  }
+}

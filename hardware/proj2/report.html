@@ -1,0 +1,579 @@
+<h1 id="project-2-report-oled-on-zedboard">Project 2 Report: OLED on
+Zedboard</h1>
+<h2 id="overview">Overview</h2>
+<ol type="1">
+<li>Instantiate an AXI-SPI Core in the PL of the Zynq SoC to handle SPI
+communication.</li>
+<li>The PS writes data to the AXI-SPI core via AXI4-Lite.</li>
+<li>The AXI-SPI core in the PL sends the SPI data to the OLED
+display.</li>
+</ol>
+<h2 id="oled-interfaces">OLED Interfaces</h2>
+<ul>
+<li><p><strong>GPIO (Parallel)</strong>: Uses multiple pins to transfer
+data in parallel, offering high-speed communication but requiring many
+GPIO pins, which can be complex to wire and debug.</p></li>
+<li><p><strong>I2C</strong>: A two-wire serial interface (SDA for data,
+SCL for clock) that is simple to wire and allows multiple devices on the
+same bus but operates at a slower speed compared to SPI, making it ideal
+for simpler displays.</p></li>
+<li><p><strong>SPI</strong>: Several variations, but generally a two to
+four wire serial interface that provides faster communication than I2C
+with fewer pins than GPIO, striking a balance between speed and pin
+usage for moderately complex displays.</p></li>
+</ul>
+<p>This project implements the SPI interface to communicate with the
+OLED display.</p>
+<h2 id="arm-advanced-microcontroller-bus-architecture-amba">ARM Advanced
+Microcontroller Bus Architecture (AMBA)</h2>
+<p>The Advanced Microcontroller Bus Architecture (AMBA) is an
+open-standard interconnect system developed by ARM for efficient on-chip
+communication in System-on-Chip (SoC) designs. Key protocols
+include:</p>
+<ol type="1">
+<li><p><strong>AHB (Advanced High-performance Bus)</strong>:
+High-bandwidth, pipelined bus for fast data transfers, ideal for
+processors and high-speed peripherals.</p></li>
+<li><p><strong>APB (Advanced Peripheral Bus)</strong>: Simplified,
+low-power bus for slower peripherals like GPIOs and timers, with reduced
+complexity.</p></li>
+<li><p><strong>AXI (Advanced eXtensible Interface)</strong>:
+High-performance bus supporting multiple masters, separate read/write
+channels, and efficient memory access, used for data-intensive
+tasks.</p></li>
+<li><p><strong>ACE (AXI Coherency Extensions)</strong>: Adds cache
+coherency for multi-core systems, crucial for synchronized data
+access.</p></li>
+<li><p><strong>CHI (Coherent Hub Interface)</strong>: High-bandwidth
+protocol for data center applications, maintaining data coherency across
+distributed systems.</p></li>
+</ol>
+<h3 id="axi-advanced-extensible-interface">AXI (Advanced eXtensible
+Interface)</h3>
+<ol type="1">
+<li><strong>AXI3</strong>:
+<ul>
+<li>The original AXI specification.</li>
+<li>Supports up to 16 data beats per burst.</li>
+<li>Does not support features like QoS (Quality of Service) and
+user-defined signaling present in later versions.</li>
+<li>Commonly used in systems where backward compatibility is
+required.</li>
+</ul></li>
+<li><strong>AXI4</strong>:
+<ul>
+<li>An enhanced version of AXI3, widely used in modern SoCs.</li>
+<li>Supports up to 256 data beats per burst, increasing data
+throughput.</li>
+<li>Adds features like QoS signaling for managing data flow
+priorities.</li>
+<li>Supports both high-bandwidth and low-latency requirements, making it
+suitable for high-performance applications.</li>
+</ul></li>
+<li><strong>AXI4-Lite</strong>:
+<ul>
+<li>A simplified, low-resource version of AXI4, supporting only single
+32-bit data transfers.</li>
+<li>Does not support burst transactions, making it ideal for low-speed,
+low-power peripherals.</li>
+<li>Commonly used for control registers and simple peripheral
+communications.</li>
+</ul></li>
+<li><strong>AXI4-Stream</strong>:
+<ul>
+<li>Designed for unidirectional, high-throughput data streaming without
+addressing overhead.</li>
+<li>Does not use address channels, focusing solely on continuous data
+transfer.</li>
+<li>Ideal for applications requiring high data rates, such as video
+processing, networking, and digital signal processing (DSP).</li>
+</ul></li>
+<li><strong>AXI5</strong>:
+<ul>
+<li>The latest update to AXI, introduced by ARM to improve cache
+coherency and system efficiency.</li>
+<li>Supports advanced coherency protocols and fault tolerance features
+for high-reliability applications.</li>
+<li>Mainly used in multi-core systems that require sophisticated memory
+consistency across processors.</li>
+</ul></li>
+</ol>
+<h2 id="axi4-lite-protocol">AXI4-Lite Protocol</h2>
+<figure>
+<img src="read_channels_diagram.png" alt="Read Channels" />
+<figcaption aria-hidden="true">Read Channels</figcaption>
+</figure>
+<ul>
+<li>The <strong>read address channel</strong> carries addressing
+information and handshaking signals</li>
+<li>The <strong>read data channel</strong> carries the data values and
+handshaking signals</li>
+</ul>
+<figure>
+<img src="write_channels_diagram.png" alt="Write Channels" />
+<figcaption aria-hidden="true">Write Channels</figcaption>
+</figure>
+<ul>
+<li>The <strong>write address channel</strong> carries addressing
+information and handshaking signals</li>
+<li>The <strong>write data channel</strong> carries the data values and
+handshaking signals</li>
+<li>The <strong>write response channel</strong> allows the slave
+peripheral to acknowledge receipt of the data</li>
+</ul>
+<h3 id="axi4-lite-ports">AXI4-Lite Ports</h3>
+<p><img src="axi_lite_block_diagram.png" alt="AXI_LITE IP" /><br />
+<em>From Vivado AXI Quad SPI IP</em></p>
+<h3 id="read-transactions">Read Transactions</h3>
+<p><strong>Handshaking Signals:</strong></p>
+<p>The handshaking signals are based on a simple “Ready/Valid”
+principle:</p>
+<ul>
+<li>“Ready” indicates that the recipient is ready to accept data.</li>
+<li>“Valid” indicates that the sender has valid data to send.</li>
+</ul>
+<p>Either state can be asserted first:</p>
+<blockquote>
+<p>“A frequently misunderstood use of the Valid and Ready signals, and
+one which often results in incorrect and illegal implementations of the
+AXI4-lite protocol, is the assumption that the sender can/must wait for
+“Ready” to be asserted by the receiver before it asserts its “Valid”
+signal. This is an illegal use of the handshaking signals and can result
+in a deadlock situation arising. Ready can be asserted before Valid, but
+the sender must never wait for Ready as a pre-condition to commencing
+the transaction.”</p>
+</blockquote>
+<h4 id="axi4-lite-read-address-channel">AXI4-lite Read Address
+Channel</h4>
+<table>
+<colgroup>
+<col style="width: 12%" />
+<col style="width: 7%" />
+<col style="width: 9%" />
+<col style="width: 71%" />
+</colgroup>
+<thead>
+<tr>
+<th>Signal Name</th>
+<th>Size</th>
+<th>Driven by</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>S_AXI_ARADDR</td>
+<td>32 bits</td>
+<td>Master</td>
+<td>Address bus from AXI interconnect to slave peripheral.</td>
+</tr>
+<tr>
+<td>S_AXI_ARVALID</td>
+<td>1 bit</td>
+<td>Master</td>
+<td>Valid signal, asserting that the S_AXI_AWADDR can be sampled by the
+slave peripheral.</td>
+</tr>
+<tr>
+<td>S_AXI_ARREADY</td>
+<td>1 bit</td>
+<td>Slave</td>
+<td>Ready signal, indicating that the slave is ready to accept the value
+on S_AXI_AWADDR.</td>
+</tr>
+</tbody>
+</table>
+<h4 id="axi4-lite-read-data-channel">AXI4-lite Read Data Channel</h4>
+<table>
+<colgroup>
+<col style="width: 9%" />
+<col style="width: 6%" />
+<col style="width: 7%" />
+<col style="width: 77%" />
+</colgroup>
+<thead>
+<tr>
+<th>Signal Name</th>
+<th>Size</th>
+<th>Driven by</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>S_AXI_RDATA</td>
+<td>32 bits</td>
+<td>Slave</td>
+<td>Data bus from the slave peripheral to the AXI interconnect.</td>
+</tr>
+<tr>
+<td>S_AXI_RVALID</td>
+<td>1 bit</td>
+<td>Slave</td>
+<td>Valid signal, asserting that the S_AXI_RDATA can be sampled by the
+Master.</td>
+</tr>
+<tr>
+<td>S_AXI_RREADY</td>
+<td>1 bit</td>
+<td>Master</td>
+<td>Ready signal, indicating that the Master is ready to accept the
+value on the other signals.</td>
+</tr>
+<tr>
+<td>S_AXI_RRESP</td>
+<td>2 bits</td>
+<td>Slave</td>
+<td>A “Response” status signal showing whether the transaction completed
+successfully or whether there was an error.</td>
+</tr>
+</tbody>
+</table>
+<h5 id="s_axi_rresp-signals">S_AXI_RRESP Signals</h5>
+<table>
+<colgroup>
+<col style="width: 8%" />
+<col style="width: 4%" />
+<col style="width: 87%" />
+</colgroup>
+<thead>
+<tr>
+<th>RRESP State [1:0]</th>
+<th>Condition</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>00</td>
+<td>OKAY</td>
+<td>“OKAY” - The data was received successfully, and there were no
+errors.</td>
+</tr>
+<tr>
+<td>01</td>
+<td>EXOKAY</td>
+<td>“Exclusive Access OK” - This state is only used in the full
+implementation of AXI4, and therefore cannot occur when using
+AXI4-Lite.</td>
+</tr>
+<tr>
+<td>10</td>
+<td>SLVERR</td>
+<td>“Slave Error” - The slave has received the address phase of the
+transaction correctly but needs to signal an error condition to the
+master. Often results in a retry.</td>
+</tr>
+<tr>
+<td>11</td>
+<td>DECERR</td>
+<td>“Decode Error” - This condition is not normally asserted by a
+peripheral but can be asserted by the AXI interconnect logic. It
+indicates the address doesn’t exist in the AXI interconnect address
+space.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="write-transactions">Write Transactions</h3>
+<p>Write transactions are almost identical to the Read transactions
+discussed above, except that the Write Data Channel has one signal that
+is different to the Read Data Channel.</p>
+<h4 id="axi4-lite-write-address-channel">AXI4-lite Write Address
+Channel</h4>
+<table>
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 6%" />
+<col style="width: 7%" />
+<col style="width: 76%" />
+</colgroup>
+<thead>
+<tr>
+<th>Signal Name</th>
+<th>Size</th>
+<th>Driven by</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>S_AXI_AWADDR</td>
+<td>32 bits</td>
+<td>Master</td>
+<td>Address bus from AXI interconnect to slave peripheral.</td>
+</tr>
+<tr>
+<td>S_AXI_AWVALID</td>
+<td>1 bit</td>
+<td>Master</td>
+<td>Valid signal, asserting that the S_AXI_AWADDR can be sampled by the
+slave peripheral.</td>
+</tr>
+<tr>
+<td>S_AXI_AWREADY</td>
+<td>1 bit</td>
+<td>Slave</td>
+<td>Ready signal, indicating that the slave is ready to accept the value
+on S_AXI_AWADDR.</td>
+</tr>
+</tbody>
+</table>
+<h4 id="axi4-lite-write-data-channel">AXI4-lite Write Data Channel</h4>
+<table>
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 6%" />
+<col style="width: 7%" />
+<col style="width: 75%" />
+</colgroup>
+<thead>
+<tr>
+<th>Signal Name</th>
+<th>Size</th>
+<th>Driven by</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>S_AXI_WDATA</td>
+<td>32 bits</td>
+<td>Master</td>
+<td>Data bus from the Master / AXI interconnect to the Slave
+peripheral.</td>
+</tr>
+<tr>
+<td>S_AXI_WVALID</td>
+<td>1 bit</td>
+<td>Master</td>
+<td>Valid signal, asserting that the S_AXI_RDATA can be sampled by the
+Master.</td>
+</tr>
+<tr>
+<td>S_AXI_WREADY</td>
+<td>1 bit</td>
+<td>Slave</td>
+<td>Ready signal, indicating that the Master is ready to accept the
+value on the other signals.</td>
+</tr>
+<tr>
+<td>S_AXI_WSTRB</td>
+<td>4 bits</td>
+<td>Master</td>
+<td>A “Strobe” status signal showing which bytes of the data bus are
+valid and should be read by the Slave.</td>
+</tr>
+</tbody>
+</table>
+<h5 id="s_axi_wstrb-signals">S_AXI_WSTRB Signals</h5>
+<table>
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 36%" />
+<col style="width: 43%" />
+</colgroup>
+<thead>
+<tr>
+<th>S_AXI_WSTRB [3:0]</th>
+<th>S_AXI_WDATA active bits [31:0]</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1111</td>
+<td>11111111111111111111111111111111</td>
+<td>All bits active</td>
+</tr>
+<tr>
+<td>0011</td>
+<td>00000000000000001111111111111111</td>
+<td>Least significant 16 bits active</td>
+</tr>
+<tr>
+<td>0001</td>
+<td>00000000000000000000000011111111</td>
+<td>Least significant byte (8 bits) active</td>
+</tr>
+<tr>
+<td>1100</td>
+<td>11111111111111110000000000000000</td>
+<td>Most significant 16 bits active</td>
+</tr>
+</tbody>
+</table>
+<h4 id="axi4-lite-write-response-channel">AXI4-lite Write Response
+Channel</h4>
+<table>
+<colgroup>
+<col style="width: 9%" />
+<col style="width: 5%" />
+<col style="width: 7%" />
+<col style="width: 77%" />
+</colgroup>
+<thead>
+<tr>
+<th>Signal Name</th>
+<th>Size</th>
+<th>Driven by</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>S_AXI_BREADY</td>
+<td>1 bit</td>
+<td>Master</td>
+<td>Ready signal, indicating that the Master is ready to accept the
+“BRESP” response signal from the slave.</td>
+</tr>
+<tr>
+<td>S_AXI_BRESP</td>
+<td>2 bits</td>
+<td>Slave</td>
+<td>A “Response” status signal showing whether the transaction completed
+successfully or whether there was an error.</td>
+</tr>
+<tr>
+<td>S_AXI_BVALID</td>
+<td>1 bit</td>
+<td>Slave</td>
+<td>Valid signal, asserting that the S_AXI_BRESP can be sampled by the
+Master.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<p><a
+href="https://docs.amd.com/r/en-US/pg153-axi-quad-spi/Port-Descriptions">Other
+Port Descriptions</a></p>
+<h2 id="zedboard">Zedboard</h2>
+<figure>
+<img src="zedboard_block_diagram.png" alt="Zedboard Block Diagram" />
+<figcaption aria-hidden="true">Zedboard Block Diagram</figcaption>
+</figure>
+<blockquote>
+<p>An Inteltronic/Wisechip UG-2832HSWEG04 <strong>OLED</strong> Display
+is used on the ZedBoard. This provides a 128x32 pixel, passive-matrix,
+monochrome display. The display size is 30mm x 11.5mm x 1.45mm.</p>
+</blockquote>
+<h3 id="ug-2832hsweg04-oled-display">UG-2832HSWEG04 OLED Display</h3>
+<h4 id="oled-interface-pinout">OLED Interface Pinout</h4>
+<table>
+<colgroup>
+<col style="width: 17%" />
+<col style="width: 11%" />
+<col style="width: 14%" />
+<col style="width: 56%" />
+</colgroup>
+<thead>
+<tr>
+<th>Pin Number</th>
+<th>Symbol</th>
+<th>Zynq Pin</th>
+<th>Function</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Interface</strong></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>9</td>
+<td>RES#</td>
+<td>U9</td>
+<td>Power Reset for Controller and Driver</td>
+</tr>
+<tr>
+<td>8</td>
+<td>CS#</td>
+<td>N/C</td>
+<td>Chip Select – Pulled Down on Board</td>
+</tr>
+<tr>
+<td>10</td>
+<td>D/C#</td>
+<td>U10</td>
+<td>Data/Command Control</td>
+</tr>
+<tr>
+<td>11</td>
+<td>SCLK</td>
+<td>AB12</td>
+<td>Serial Clock Input Signal</td>
+</tr>
+<tr>
+<td>12</td>
+<td>SDIN</td>
+<td>AA12</td>
+<td>Serial Data Input Signal</td>
+</tr>
+</tbody>
+</table>
+<p>The UG-2832HSWEG04 is a 0.91-inch OLED display module featuring a
+128×32 pixel resolution and a 4-wire Serial Peripheral Interface (SPI)
+for communication. This interface facilitates efficient data transfer
+between the display module and a microcontroller.</p>
+<h4 id="spi-interface-pins">SPI Interface Pins</h4>
+<p>The display module utilizes the following pins for SPI
+communication:</p>
+<ul>
+<li><strong>CS# (Chip Select):</strong> Active-low input that enables
+the display module when pulled low.</li>
+<li><strong>RES# (Reset):</strong> Active-low input that resets the
+display module when pulled low.</li>
+<li><strong>D/C# (Data/Command):</strong> Determines the nature of the
+data; high for data, low for command.</li>
+<li><strong>SCLK (Serial Clock):</strong> Clock signal generated by the
+master device to synchronize data transmission.</li>
+<li><strong>SDIN (Serial Data Input):</strong> Serial data line for
+transmitting data from the master to the display module.</li>
+</ul>
+<h4 id="communication-protocol">Communication Protocol</h4>
+<ol type="1">
+<li><strong>Initialization:</strong>
+<ul>
+<li>Pull <strong>RES#</strong> low to reset the display module.</li>
+<li>Set <strong>RES#</strong> high to complete the reset process.</li>
+</ul></li>
+<li><strong>Data Transmission:</strong>
+<ul>
+<li>Set <strong>CS#</strong> low to select the display module.</li>
+<li>Use <strong>D/C#</strong> to specify the nature of the data:
+<ul>
+<li>Set <strong>D/C#</strong> low for command bytes.</li>
+<li>Set <strong>D/C#</strong> high for data bytes.</li>
+</ul></li>
+<li>Transmit data via <strong>SDIN</strong>, synchronized with the
+<strong>SCLK</strong> signal. Data is latched on the rising edge of
+<strong>SCLK</strong>.</li>
+</ul></li>
+<li><strong>Termination:</strong>
+<ul>
+<li>After data transmission, set <strong>CS#</strong> high to deselect
+the display module.</li>
+</ul></li>
+</ol>
+<figure>
+<img src="gddram_page_structure.png" alt="GDDRAM Page Structure" />
+<figcaption aria-hidden="true">GDDRAM Page Structure</figcaption>
+</figure>
+<figure>
+<img src="gddram_page_breakdown.png" alt="GDDRAM Page Breakdown" />
+<figcaption aria-hidden="true">GDDRAM Page Breakdown</figcaption>
+</figure>
+<hr />
+<p>References:</p>
+<p>[1] <a
+href="https://www.avnet.com/wps/wcm/connect/onesite/557e3453-20d7-4737-b2a8-8afc404dc81e/designing_a_custom_axi_slave_rev1.pdf?MOD=AJPERES&amp;CVID=nxFlYvm&amp;CVID=nxFlYvm&amp;CVID=nxFlYvm&amp;CVID=nxFlYvm">designing_a_custom_axi_slave_rev1</a></p>
+<p>[2] <a
+href="https://www.avnet.com/wps/wcm/connect/onesite/922900e3-3d57-4cc7-883f-a8b9fbea0cd0/ZedBoard_HW_UG_v2_2.pdf?MOD=AJPERES&amp;CACHEID=ROOTWORKSPACE.Z18_NA5A1I41L0ICD0ABNDMDDG0000-922900e3-3d57-4cc7-883f-a8b9fbea0cd0-nxyWMFS">ZedBoard_HW_Users_Guide</a></p>
+<p>[3] <a
+href="https://cdn-shop.adafruit.com/datasheets/UG-2832HSWEG04.pdf">OLED
+Display Datasheet</a></p>
+<p>[4] <a
+href="https://cdn-shop.adafruit.com/datasheets/SSD1306.pdf">SSD1306
+Datasheet</a></p>
