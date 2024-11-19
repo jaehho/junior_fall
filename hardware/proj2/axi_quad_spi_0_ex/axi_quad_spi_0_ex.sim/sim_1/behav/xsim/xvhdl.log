@@ -1,0 +1,8 @@
+INFO: [VRFC 10-163] Analyzing VHDL file "c:/Users/jaeho/junior_fall/hardware/proj2/axi_quad_spi_0_ex/axi_quad_spi_0_ex.gen/sources_1/ip/axi_quad_spi_0/sim/axi_quad_spi_0.vhd" into library xil_defaultlib
+INFO: [VRFC 10-3107] analyzing entity 'axi_quad_spi_0'
+INFO: [VRFC 10-163] Analyzing VHDL file "c:/Users/jaeho/junior_fall/hardware/proj2/axi_quad_spi_0_ex/imports/axi_quad_spi_0_exdes.vhd" into library xil_defaultlib
+INFO: [VRFC 10-3107] analyzing entity 'axi_quad_spi_0_exdes'
+INFO: [VRFC 10-163] Analyzing VHDL file "c:/Users/jaeho/junior_fall/hardware/proj2/axi_quad_spi_0_ex/imports/memory_model.vhd" into library xil_defaultlib
+INFO: [VRFC 10-3107] analyzing entity 'memory_model'
+INFO: [VRFC 10-163] Analyzing VHDL file "c:/Users/jaeho/junior_fall/hardware/proj2/axi_quad_spi_0_ex/imports/axi_quad_spi_0_exdes_tb.vhd" into library xil_defaultlib
+INFO: [VRFC 10-3107] analyzing entity 'axi_quad_spi_0_exdes_tb'

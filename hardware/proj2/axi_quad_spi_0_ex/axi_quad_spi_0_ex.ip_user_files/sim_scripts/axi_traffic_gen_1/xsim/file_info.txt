@@ -1,0 +1,2 @@
+axi_traffic_gen_1.v,verilog,xil_defaultlib,../../../../axi_quad_spi_0_ex.gen/sources_1/ip/axi_traffic_gen_1/sim/axi_traffic_gen_1.v,incdir="../../../ipstatic/hdl/src/verilog"incdir="../../../ipstatic/hdl/src/verilog"
+glbl.v,Verilog,xil_defaultlib,glbl.v

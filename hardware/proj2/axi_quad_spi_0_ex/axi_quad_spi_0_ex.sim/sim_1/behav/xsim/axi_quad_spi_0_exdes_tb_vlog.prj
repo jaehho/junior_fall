@@ -1,0 +1,13 @@
+# compile verilog/system verilog design source files
+verilog xil_defaultlib  --include "../../../../axi_quad_spi_0_ex.ip_user_files/ipstatic/hdl/src/verilog" --include "../../../../axi_quad_spi_0_ex.ip_user_files/ipstatic" \
+"../../../../axi_quad_spi_0_ex.gen/sources_1/ip/axi_traffic_gen_3/sim/axi_traffic_gen_3.v" \
+"../../../../axi_quad_spi_0_ex.gen/sources_1/ip/axi_traffic_gen_2/sim/axi_traffic_gen_2.v" \
+"../../../../axi_quad_spi_0_ex.gen/sources_1/ip/axi_traffic_gen_1/sim/axi_traffic_gen_1.v" \
+"../../../../axi_quad_spi_0_ex.gen/sources_1/ip/clk_wiz_0/clk_wiz_0_clk_wiz.v" \
+"../../../../axi_quad_spi_0_ex.gen/sources_1/ip/clk_wiz_0/clk_wiz_0.v" \
+
+# compile glbl module
+verilog xil_defaultlib "glbl.v"
+
+# Do not sort compile order
+nosort

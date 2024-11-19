@@ -1,0 +1,4 @@
+Time resolution is 1 ps
+Failure: EXAMPLE DESIGN NOT SUPPORTED WHEN STARTUP = 1,Test Completed Successfully
+Time: 0 ps  Iteration: 0  Process: /axi_quad_spi_0_exdes_tb/line__195  File: c:/Users/jaeho/junior_fall/hardware/proj2/axi_quad_spi_0_ex/imports/axi_quad_spi_0_exdes_tb.vhd
+$finish called at time : 0 fs : File "c:/Users/jaeho/junior_fall/hardware/proj2/axi_quad_spi_0_ex/imports/axi_quad_spi_0_exdes_tb.vhd" Line 199

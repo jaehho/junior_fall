@@ -1,0 +1,7 @@
+verilog xil_defaultlib --include "../../../ipstatic/hdl/src/verilog" \
+"../../../../axi_quad_spi_0_ex.gen/sources_1/ip/axi_traffic_gen_3/sim/axi_traffic_gen_3.v" \
+
+verilog xil_defaultlib "glbl.v"
+
+# Do not sort compile order
+nosort

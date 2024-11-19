@@ -1,0 +1,14 @@
+0.7
+2020.2
+Sep  5 2024
+15:23:16
+c:/Users/jaeho/junior_fall/hardware/proj2/axi_quad_spi_0_ex/axi_quad_spi_0_ex.gen/sources_1/ip/axi_quad_spi_0/sim/axi_quad_spi_0.vhd,1731978754,vhdl,,,,axi_quad_spi_0,,,,,,,,
+c:/Users/jaeho/junior_fall/hardware/proj2/axi_quad_spi_0_ex/axi_quad_spi_0_ex.gen/sources_1/ip/axi_traffic_gen_1/sim/axi_traffic_gen_1.v,1732041278,verilog,,c:/Users/jaeho/junior_fall/hardware/proj2/axi_quad_spi_0_ex/axi_quad_spi_0_ex.gen/sources_1/ip/clk_wiz_0/clk_wiz_0_clk_wiz.v,,axi_traffic_gen_1,,,../../../../axi_quad_spi_0_ex.ip_user_files/ipstatic;../../../../axi_quad_spi_0_ex.ip_user_files/ipstatic/hdl/src/verilog,,,,,
+c:/Users/jaeho/junior_fall/hardware/proj2/axi_quad_spi_0_ex/axi_quad_spi_0_ex.gen/sources_1/ip/axi_traffic_gen_2/sim/axi_traffic_gen_2.v,1732041279,verilog,,c:/Users/jaeho/junior_fall/hardware/proj2/axi_quad_spi_0_ex/axi_quad_spi_0_ex.gen/sources_1/ip/axi_traffic_gen_1/sim/axi_traffic_gen_1.v,,axi_traffic_gen_2,,,../../../../axi_quad_spi_0_ex.ip_user_files/ipstatic;../../../../axi_quad_spi_0_ex.ip_user_files/ipstatic/hdl/src/verilog,,,,,
+c:/Users/jaeho/junior_fall/hardware/proj2/axi_quad_spi_0_ex/axi_quad_spi_0_ex.gen/sources_1/ip/axi_traffic_gen_3/sim/axi_traffic_gen_3.v,1732041280,verilog,,c:/Users/jaeho/junior_fall/hardware/proj2/axi_quad_spi_0_ex/axi_quad_spi_0_ex.gen/sources_1/ip/axi_traffic_gen_2/sim/axi_traffic_gen_2.v,,axi_traffic_gen_3,,,../../../../axi_quad_spi_0_ex.ip_user_files/ipstatic;../../../../axi_quad_spi_0_ex.ip_user_files/ipstatic/hdl/src/verilog,,,,,
+c:/Users/jaeho/junior_fall/hardware/proj2/axi_quad_spi_0_ex/axi_quad_spi_0_ex.gen/sources_1/ip/clk_wiz_0/clk_wiz_0.v,1732041277,verilog,,,,clk_wiz_0,,,../../../../axi_quad_spi_0_ex.ip_user_files/ipstatic;../../../../axi_quad_spi_0_ex.ip_user_files/ipstatic/hdl/src/verilog,,,,,
+c:/Users/jaeho/junior_fall/hardware/proj2/axi_quad_spi_0_ex/axi_quad_spi_0_ex.gen/sources_1/ip/clk_wiz_0/clk_wiz_0_clk_wiz.v,1732041277,verilog,,c:/Users/jaeho/junior_fall/hardware/proj2/axi_quad_spi_0_ex/axi_quad_spi_0_ex.gen/sources_1/ip/clk_wiz_0/clk_wiz_0.v,,clk_wiz_0_clk_wiz,,,../../../../axi_quad_spi_0_ex.ip_user_files/ipstatic;../../../../axi_quad_spi_0_ex.ip_user_files/ipstatic/hdl/src/verilog,,,,,
+c:/Users/jaeho/junior_fall/hardware/proj2/axi_quad_spi_0_ex/axi_quad_spi_0_ex.sim/sim_1/behav/xsim/glbl.v,1708598507,verilog,,,,glbl,,,,,,,,
+c:/Users/jaeho/junior_fall/hardware/proj2/axi_quad_spi_0_ex/imports/axi_quad_spi_0_exdes.vhd,1732041228,vhdl,,,,axi_quad_spi_0_exdes,,,,,,,,
+c:/Users/jaeho/junior_fall/hardware/proj2/axi_quad_spi_0_ex/imports/axi_quad_spi_0_exdes_tb.vhd,1732041228,vhdl2008,,,,axi_quad_spi_0_exdes_tb,,,,,,,,
+c:/Users/jaeho/junior_fall/hardware/proj2/axi_quad_spi_0_ex/imports/memory_model.vhd,1732041229,vhdl,,,,memory_model,,,,,,,,

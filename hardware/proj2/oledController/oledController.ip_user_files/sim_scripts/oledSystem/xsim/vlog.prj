@@ -1,0 +1,17 @@
+verilog xil_defaultlib --include "C:/Xilinx/Vivado/2024.1/data/xilinx_vip/include" --include "../../../../oledController.gen/sources_1/bd/oledSystem/ipshared/ec67/hdl" --include "../../../../oledController.gen/sources_1/bd/oledSystem/ipshared/d47c/hdl" \
+"../../../bd/oledSystem/ip/oledSystem_processing_system7_0_0/sim/oledSystem_processing_system7_0_0.v" \
+"../../../bd/oledSystem/ipshared/d776/hdl/oledControl_IP_slave_lite_v1_0_S00_AXI.v" \
+"../../../bd/oledSystem/ipshared/d776/src/charROM.v" \
+"../../../bd/oledSystem/ipshared/d776/src/delayGen.v" \
+"../../../bd/oledSystem/ipshared/d776/src/oledControl.v" \
+"../../../bd/oledSystem/ipshared/d776/src/spiControl.v" \
+"../../../bd/oledSystem/ipshared/d776/src/top.v" \
+"../../../bd/oledSystem/ipshared/d776/hdl/oledControl_IP.v" \
+"../../../bd/oledSystem/ip/oledSystem_oledControl_IP_0_0/sim/oledSystem_oledControl_IP_0_0.v" \
+"../../../bd/oledSystem/ip/oledSystem_auto_pc_0/sim/oledSystem_auto_pc_0.v" \
+"../../../bd/oledSystem/sim/oledSystem.v" \
+
+verilog xil_defaultlib "glbl.v"
+
+# Do not sort compile order
+nosort
