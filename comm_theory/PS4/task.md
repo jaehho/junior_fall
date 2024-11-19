@@ -78,7 +78,7 @@ p(r) = \frac{r}{\sigma^2} e^{-\frac{r^2}{2\sigma^2}}, \quad r > 0
 
 **Tasks:**
 1. For a threshold \(\rho\), compute \(P(R > \rho)\).  
-2. Find the value \(\rho/\sigma^2\) so that \(P(R > \rho) = 10^{-4}\).  
+2. Find the value \(\rho/\sigma\) so that \(P(R > \rho) = 10^{-4}\).  
 3. Taking \(\sigma^2 = 1\), generate \(10^7\) samples of iid \(n_I + jn_Q\). Compute \(R = |n_I + jn_Q|\), sketch this along with a solid line at \(\rho\).  
 4. Find the fraction of time \(R > \rho\) and compare to \(10^{-4}\).  
 5. For the same \(\rho\), decrease \(\sigma^2\) by 1 dB and compute theoretical \(P(R > \rho)\). Repeat the simulation.  
