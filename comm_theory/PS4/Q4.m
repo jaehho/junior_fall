@@ -1,12 +1,12 @@
 clc; clear; close all;
 
-%% (a) Compute P(R > rho)
+% (a) Compute P(R > rho)
 function P_R_greater_rho = P_R_greater_rho_(rho, sigma2)
     % Compute the probability P(R > rho)
     P_R_greater_rho = exp(-rho^2 / (2 * sigma2));
 end
 
-%% (b) Find rho/sigma so that P(R > rho) = 10^-4
+% (b) Find rho/sigma so that P(R > rho) = 10^-4
 function rho_sigma_ratio = rho_sigma_ratio_(rho_threshold)
     % Find rho/sigma so that P(R > rho) = 10^-4
     rho_sigma_ratio = sqrt(-2 * log(rho_threshold));
@@ -16,7 +16,7 @@ rho_threshold = 10^-4;
 rho_sigma_ratio = rho_sigma_ratio_(10^-4);
 fprintf('rho/sigma ratio: %.5f\n', rho_sigma_ratio);
 
-%% (c) Sketch R = |n_I + jn_Q|
+% (c) Sketch R = |n_I + jn_Q|
 function R = generateNoise(num_samples, sigma2)
     % Generate noise components
     n_I = randn(num_samples, 1) * sqrt(sigma2);
@@ -46,7 +46,7 @@ function plot_pdf(R, rho, sigma2, num_samples)
     grid on;
 end
 
-%% (d) Fraction of time R > rho
+% (d) Fraction of time R > rho
 function analysis(sigma2, rho, num_samples)
     R = generateNoise(num_samples, sqrt(sigma2));
     plot_pdf(R, rho, sigma2, num_samples);
@@ -66,13 +66,13 @@ fprintf('\nFor sigma^2 = 1:');
 analysis(sigma2, rho, num_samples);
 
 
-%% (e) Decrease sigma^2 by 1 dB
+% (e) Decrease sigma^2 by 1 dB
 sigma2_decreased = sigma2 * 10^(-1/10);
 
 fprintf('\nFor decreased sigma^2 by 1 dB:');
 analysis(sigma2_decreased, rho, num_samples);
 
-%% (f) Increase sigma^2 by 1 dB
+% (f) Increase sigma^2 by 1 dB
 sigma2_increased = sigma2 * 10^(1/10); % Increase sigma^2 by 1 dB
 
 fprintf('\nFor increased sigma^2 by 1 dB:');

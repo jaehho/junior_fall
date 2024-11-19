@@ -1,0 +1,260 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      -->
+<title>Q4</title>
+<meta name="generator" content="MATLAB 24.1">
+<link rel="schema.DC" href="http://purl.org/dc/elements/1.1/">
+<meta name="DC.date" content="2024-11-18">
+<meta name="DC.source" content="Q4.m">
+<style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; }
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+span.typesection { color:#A0522D }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style>
+</head>
+<body>
+<div class="content">
+<pre class="codeinput">clc; clear; close <span class="string">all</span>;
+
+<span class="comment">% (a) Compute P(R &gt; rho)</span>
+<span class="keyword">function</span> P_R_greater_rho = P_R_greater_rho_(rho, sigma2)
+    <span class="comment">% Compute the probability P(R &gt; rho)</span>
+    P_R_greater_rho = exp(-rho^2 / (2 * sigma2));
+<span class="keyword">end</span>
+
+<span class="comment">% (b) Find rho/sigma so that P(R &gt; rho) = 10^-4</span>
+<span class="keyword">function</span> rho_sigma_ratio = rho_sigma_ratio_(rho_threshold)
+    <span class="comment">% Find rho/sigma so that P(R &gt; rho) = 10^-4</span>
+    rho_sigma_ratio = sqrt(-2 * log(rho_threshold));
+<span class="keyword">end</span>
+
+rho_threshold = 10^-4;
+rho_sigma_ratio = rho_sigma_ratio_(10^-4);
+fprintf(<span class="string">'rho/sigma ratio: %.5f\n'</span>, rho_sigma_ratio);
+
+<span class="comment">% (c) Sketch R = |n_I + jn_Q|</span>
+<span class="keyword">function</span> R = generateNoise(num_samples, sigma2)
+    <span class="comment">% Generate noise components</span>
+    n_I = randn(num_samples, 1) * sqrt(sigma2);
+    n_Q = randn(num_samples, 1) * sqrt(sigma2);
+    <span class="comment">% Compute the magnitude R</span>
+    R = abs(n_I + 1j * n_Q);
+<span class="keyword">end</span>
+
+<span class="keyword">function</span> plot_pdf(R, rho, sigma2, num_samples)
+    <span class="comment">% Plot the empirical PDF</span>
+    figure;
+    histogram(R, <span class="string">'Normalization'</span>, <span class="string">'pdf'</span>);
+    hold <span class="string">on</span>;
+
+    <span class="comment">% Compute theoretical PDF</span>
+    r_vals = linspace(0, max(R), num_samples);
+    pdf_vals = (r_vals / sigma2) .* exp(-r_vals.^2 / (2 * sigma2));
+    plot(r_vals, pdf_vals, <span class="string">'r-'</span>, <span class="string">'LineWidth'</span>, 2);
+
+    <span class="comment">% Add a vertical line at rho</span>
+    xline(rho, <span class="string">'k'</span>, <span class="string">'LineWidth'</span>, 2);
+
+    title(<span class="string">'PDF of R and Threshold \rho'</span>);
+    xlabel(<span class="string">'R'</span>);
+    ylabel(<span class="string">'PDF'</span>);
+    legend(<span class="string">'Empirical PDF'</span>, <span class="string">'Theoretical PDF'</span>, <span class="string">'\rho'</span>);
+    grid <span class="string">on</span>;
+<span class="keyword">end</span>
+
+<span class="comment">% (d) Fraction of time R &gt; rho</span>
+<span class="keyword">function</span> analysis(sigma2, rho, num_samples)
+    R = generateNoise(num_samples, sqrt(sigma2));
+    plot_pdf(R, rho, sigma2, num_samples);
+
+    frac_R_greater_rho = mean(R &gt; rho);
+
+    <span class="comment">% Display results</span>
+    fprintf(<span class="string">'Empirical fraction R &gt; rho: %.5f\n'</span>, frac_R_greater_rho);
+    fprintf(<span class="string">'Theoretical P(R &gt; rho): %.5f\n'</span>, P_R_greater_rho_(rho, sigma2));
+<span class="keyword">end</span>
+
+sigma2 = 1;
+rho = rho_sigma_ratio * sqrt(sigma2);
+num_samples = 1e7;
+
+fprintf(<span class="string">'\nFor sigma^2 = 1:'</span>);
+analysis(sigma2, rho, num_samples);
+
+
+<span class="comment">% (e) Decrease sigma^2 by 1 dB</span>
+sigma2_decreased = sigma2 * 10^(-1/10);
+
+fprintf(<span class="string">'\nFor decreased sigma^2 by 1 dB:'</span>);
+analysis(sigma2_decreased, rho, num_samples);
+
+<span class="comment">% (f) Increase sigma^2 by 1 dB</span>
+sigma2_increased = sigma2 * 10^(1/10); <span class="comment">% Increase sigma^2 by 1 dB</span>
+
+fprintf(<span class="string">'\nFor increased sigma^2 by 1 dB:'</span>);
+analysis(sigma2_increased, rho, num_samples);
+</pre>
+<pre class="codeoutput">rho/sigma ratio: 4.29193
+
+For sigma^2 = 1:Empirical fraction R &gt; rho: 0.00010
+Theoretical P(R &gt; rho): 0.00010
+
+For decreased sigma^2 by 1 dB:Empirical fraction R &gt; rho: 0.00003
+Theoretical P(R &gt; rho): 0.00001
+
+For increased sigma^2 by 1 dB:Empirical fraction R &gt; rho: 0.00026
+Theoretical P(R &gt; rho): 0.00066
+</pre>
+<img vspace="5" hspace="5" src="Q4_01.png" alt=""> <img vspace="5" hspace="5" src="Q4_02.png" alt=""> <img vspace="5" hspace="5" src="Q4_03.png" alt=""> <p class="footer">
+<br>
+<a href="https://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2024a</a>
+<br>
+</p>
+</div>
+<!--
+##### SOURCE BEGIN #####
+clc; clear; close all;
+
+% (a) Compute P(R > rho)
+function P_R_greater_rho = P_R_greater_rho_(rho, sigma2)
+    % Compute the probability P(R > rho)
+    P_R_greater_rho = exp(-rho^2 / (2 * sigma2));
+end
+
+% (b) Find rho/sigma so that P(R > rho) = 10^-4
+function rho_sigma_ratio = rho_sigma_ratio_(rho_threshold)
+    % Find rho/sigma so that P(R > rho) = 10^-4
+    rho_sigma_ratio = sqrt(-2 * log(rho_threshold));
+end
+
+rho_threshold = 10^-4;
+rho_sigma_ratio = rho_sigma_ratio_(10^-4);
+fprintf('rho/sigma ratio: %.5f\n', rho_sigma_ratio);
+
+% (c) Sketch R = |n_I + jn_Q|
+function R = generateNoise(num_samples, sigma2)
+    % Generate noise components
+    n_I = randn(num_samples, 1) * sqrt(sigma2);
+    n_Q = randn(num_samples, 1) * sqrt(sigma2);
+    % Compute the magnitude R
+    R = abs(n_I + 1j * n_Q);
+end
+
+function plot_pdf(R, rho, sigma2, num_samples)
+    % Plot the empirical PDF
+    figure;
+    histogram(R, 'Normalization', 'pdf'); 
+    hold on;
+
+    % Compute theoretical PDF
+    r_vals = linspace(0, max(R), num_samples);
+    pdf_vals = (r_vals / sigma2) .* exp(-r_vals.^2 / (2 * sigma2));
+    plot(r_vals, pdf_vals, 'r-', 'LineWidth', 2);
+
+    % Add a vertical line at rho
+    xline(rho, 'k', 'LineWidth', 2);
+
+    title('PDF of R and Threshold \rho');
+    xlabel('R');
+    ylabel('PDF');
+    legend('Empirical PDF', 'Theoretical PDF', '\rho');
+    grid on;
+end
+
+% (d) Fraction of time R > rho
+function analysis(sigma2, rho, num_samples)
+    R = generateNoise(num_samples, sqrt(sigma2));
+    plot_pdf(R, rho, sigma2, num_samples);
+
+    frac_R_greater_rho = mean(R > rho);
+
+    % Display results
+    fprintf('Empirical fraction R > rho: %.5f\n', frac_R_greater_rho);
+    fprintf('Theoretical P(R > rho): %.5f\n', P_R_greater_rho_(rho, sigma2));
+end
+
+sigma2 = 1;
+rho = rho_sigma_ratio * sqrt(sigma2);
+num_samples = 1e7;
+
+fprintf('\nFor sigma^2 = 1:');
+analysis(sigma2, rho, num_samples);
+
+
+% (e) Decrease sigma^2 by 1 dB
+sigma2_decreased = sigma2 * 10^(-1/10);
+
+fprintf('\nFor decreased sigma^2 by 1 dB:');
+analysis(sigma2_decreased, rho, num_samples);
+
+% (f) Increase sigma^2 by 1 dB
+sigma2_increased = sigma2 * 10^(1/10); % Increase sigma^2 by 1 dB
+
+fprintf('\nFor increased sigma^2 by 1 dB:');
+analysis(sigma2_increased, rho, num_samples);
+##### SOURCE END #####
+-->
+</body>
+</html>
