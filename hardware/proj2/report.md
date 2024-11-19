@@ -61,12 +61,12 @@ The Advanced Microcontroller Bus Architecture (AMBA) is an open-standard interco
 
 ## AXI4-Lite Protocol
 
-![Read Channels](read_channels_diagram.png)
+![Read Channels](images/read_channels_diagram.png)
 
 - The **read address channel** carries addressing information and handshaking signals
 - The **read data channel** carries the data values and handshaking signals
 
-![Write Channels](write_channels_diagram.png)
+![Write Channels](images/write_channels_diagram.png)
 
 - The **write address channel** carries addressing information and handshaking signals
 - The **write data channel** carries the data values and handshaking signals
@@ -74,7 +74,7 @@ The Advanced Microcontroller Bus Architecture (AMBA) is an open-standard interco
 
 ### AXI4-Lite Ports
 
-![AXI_LITE IP](axi_lite_block_diagram.png)\
+![AXI_LITE IP](images/axi_lite_block_diagram.png)\
 *From Vivado AXI Quad SPI IP*
 
 ### Read Transactions
@@ -160,7 +160,7 @@ Write transactions are almost identical to the Read transactions discussed above
 
 ## Zedboard
 
-![Zedboard Block Diagram](zedboard_block_diagram.png)
+![Zedboard Block Diagram](images/zedboard_block_diagram.png)
 
 > An Inteltronic/Wisechip UG-2832HSWEG04 **OLED** Display is used on the ZedBoard. This provides a 128x32 pixel, passive-matrix, monochrome display. The display size is 30mm x 11.5mm x 1.45mm.
 
@@ -205,9 +205,9 @@ The display module utilizes the following pins for SPI communication:
 3. **Termination:**
    - After data transmission, set **CS#** high to deselect the display module.
 
-![GDDRAM Page Structure](gddram_page_structure.png)
+![GDDRAM Page Structure](images/gddram_page_structure.png)
 
-![GDDRAM Page Breakdown](gddram_page_breakdown.png)
+![GDDRAM Page Breakdown](images/gddram_page_breakdown.png)
 
 ---
 
