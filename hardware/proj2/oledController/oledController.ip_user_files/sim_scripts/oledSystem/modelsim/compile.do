@@ -58,13 +58,13 @@ vlog -work processing_system7_vip_v1_0_20  -incr -mfcu  -sv -L axi_vip_v1_1_18 -
 
 vlog -work xil_defaultlib  -incr -mfcu  "+incdir+../../../../oledController.gen/sources_1/bd/oledSystem/ipshared/ec67/hdl" "+incdir+../../../../oledController.gen/sources_1/bd/oledSystem/ipshared/d47c/hdl" "+incdir+C:/Xilinx/Vivado/2024.1/data/xilinx_vip/include" \
 "../../../bd/oledSystem/ip/oledSystem_processing_system7_0_0/sim/oledSystem_processing_system7_0_0.v" \
-"../../../bd/oledSystem/ipshared/d776/hdl/oledControl_IP_slave_lite_v1_0_S00_AXI.v" \
-"../../../bd/oledSystem/ipshared/d776/src/charROM.v" \
-"../../../bd/oledSystem/ipshared/d776/src/delayGen.v" \
-"../../../bd/oledSystem/ipshared/d776/src/oledControl.v" \
-"../../../bd/oledSystem/ipshared/d776/src/spiControl.v" \
-"../../../bd/oledSystem/ipshared/d776/src/top.v" \
-"../../../bd/oledSystem/ipshared/d776/hdl/oledControl_IP.v" \
+"../../../bd/oledSystem/ipshared/ba75/hdl/oledControl_IP_slave_lite_v1_0_S00_AXI.v" \
+"../../../bd/oledSystem/ipshared/ba75/src/charROM.v" \
+"../../../bd/oledSystem/ipshared/ba75/src/delayGen.v" \
+"../../../bd/oledSystem/ipshared/ba75/src/oledControl.v" \
+"../../../bd/oledSystem/ipshared/ba75/src/spiControl.v" \
+"../../../bd/oledSystem/ipshared/ba75/src/top.v" \
+"../../../bd/oledSystem/ipshared/ba75/hdl/oledControl_IP.v" \
 "../../../bd/oledSystem/ip/oledSystem_oledControl_IP_0_0/sim/oledSystem_oledControl_IP_0_0.v" \
 
 vcom -work lib_cdc_v1_0_3  -93  \

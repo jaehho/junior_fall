@@ -4,7 +4,7 @@
     "xci_name": "oledSystem_oledControl_IP_0_0",
     "cell_name": "oledControl_IP_0",
     "component_reference": "xilinx.com:user:oledControl_IP:1.0",
-    "ip_revision": "3",
+    "ip_revision": "6",
     "gen_directory": "../../../../../../oledController.gen/sources_1/bd/oledSystem/ip/oledSystem_oledControl_IP_0_0",
     "parameters": {
       "component_parameters": {
@@ -34,7 +34,7 @@
       },
       "runtime_parameters": {
         "IPCONTEXT": [ { "value": "IP_Integrator" } ],
-        "IPREVISION": [ { "value": "3" } ],
+        "IPREVISION": [ { "value": "6" } ],
         "MANAGED": [ { "value": "TRUE" } ],
         "OUTPUTDIR": [ { "value": "../../../../../../oledController.gen/sources_1/bd/oledSystem/ip/oledSystem_oledControl_IP_0_0" } ],
         "SELECTEDSIMMODEL": [ { "value": "" } ],

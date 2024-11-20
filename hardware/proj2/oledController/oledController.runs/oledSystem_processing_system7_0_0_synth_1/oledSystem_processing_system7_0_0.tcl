@@ -56,7 +56,12 @@ if {$::dispatch::connected} {
 }
 
 OPTRACE "oledSystem_processing_system7_0_0_synth_1" START { ROLLUP_AUTO }
+set_param chipscope.maxJobs 4
+set_param checkpoint.writeSynthRtdsInDcp 1
+set_param xicom.use_bs_reader 1
 set_msg_config -id {HDL-1065} -limit 10000
+set_msg_config -id {Synth 8-256} -limit 10000
+set_msg_config -id {Synth 8-638} -limit 10000
 set_msg_config  -id {IP_Flow 19-2187}  -string {{WARNING: [IP_Flow 19-2187] The Product Guide file is missing.}}  -suppress 
 set_param project.vivado.isBlockSynthRun true
 set_msg_config -msgmgr_mode ooc_run
@@ -80,7 +85,7 @@ set_property ip_output_repo c:/Users/jaeho/junior_fall/hardware/proj2/oledContro
 set_property ip_cache_permissions {read write} [current_project]
 OPTRACE "Creating in-memory project" END { }
 OPTRACE "Adding files" START { }
-read_ip -quiet c:/Users/jaeho/junior_fall/hardware/proj2/oledController/oledController.srcs/sources_1/bd/oledSystem/ip/oledSystem_processing_system7_0_0/oledSystem_processing_system7_0_0.xci
+read_ip -quiet C:/Users/jaeho/junior_fall/hardware/proj2/oledController/oledController.srcs/sources_1/bd/oledSystem/ip/oledSystem_processing_system7_0_0/oledSystem_processing_system7_0_0.xci
 set_property used_in_implementation false [get_files -all c:/Users/jaeho/junior_fall/hardware/proj2/oledController/oledController.gen/sources_1/bd/oledSystem/ip/oledSystem_processing_system7_0_0/oledSystem_processing_system7_0_0.xdc]
 
 OPTRACE "Adding files" END { }

@@ -48,11 +48,11 @@
 
 
 // IP VLNV: xilinx.com:user:oledControl_IP:1.0
-// IP Revision: 3
+// IP Revision: 6
 
 (* X_CORE_INFO = "oledControl_IP,Vivado 2024.1.2" *)
 (* CHECK_LICENSE_TYPE = "oledSystem_oledControl_IP_0_0,oledControl_IP,{}" *)
-(* CORE_GENERATION_INFO = "oledSystem_oledControl_IP_0_0,oledControl_IP,{x_ipProduct=Vivado 2024.1.2,x_ipVendor=xilinx.com,x_ipLibrary=user,x_ipName=oledControl_IP,x_ipVersion=1.0,x_ipCoreRevision=3,x_ipLanguage=VERILOG,x_ipSimLanguage=MIXED,C_S00_AXI_DATA_WIDTH=32,C_S00_AXI_ADDR_WIDTH=4}" *)
+(* CORE_GENERATION_INFO = "oledSystem_oledControl_IP_0_0,oledControl_IP,{x_ipProduct=Vivado 2024.1.2,x_ipVendor=xilinx.com,x_ipLibrary=user,x_ipName=oledControl_IP,x_ipVersion=1.0,x_ipCoreRevision=6,x_ipLanguage=VERILOG,x_ipSimLanguage=MIXED,C_S00_AXI_DATA_WIDTH=32,C_S00_AXI_ADDR_WIDTH=4}" *)
 (* DowngradeIPIdentifiedWarnings = "yes" *)
 module oledSystem_oledControl_IP_0_0 (
   oled_spi_clk,

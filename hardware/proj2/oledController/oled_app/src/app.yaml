@@ -1,0 +1,3 @@
+domain_path: C:\Users\jaeho\junior_fall\hardware\proj2\oledController\zedboard_platform\export\zedboard_platform\sw\standalone_ps7_cortexa9_0
+app_src_dir: C:\Xilinx\Vitis\2024.1\data\embeddedsw\lib\sw_apps\empty_application
+template: empty_application

@@ -2,7 +2,7 @@
 -- Copyright 2022-2024 Advanced Micro Devices, Inc. All Rights Reserved.
 -- --------------------------------------------------------------------------------
 -- Tool Version: Vivado v.2024.1.2 (win64) Build 5164865 Thu Sep  5 14:37:11 MDT 2024
--- Date        : Tue Nov 19 14:40:47 2024
+-- Date        : Tue Nov 19 18:57:29 2024
 -- Host        : MSI running 64-bit major release  (build 9200)
 -- Command     : write_vhdl -force -mode funcsim
 --               c:/Users/jaeho/junior_fall/hardware/proj2/oledController/oledController.gen/sources_1/bd/oledSystem/ip/oledSystem_processing_system7_0_0/oledSystem_processing_system7_0_0_sim_netlist.vhdl
