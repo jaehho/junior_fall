@@ -1,0 +1,9 @@
+int main(void){
+clear();
+print_message("This project was pretty hard",0);
+print_message("Well that's expected",1);
+print_message("Why should that be expected?",2);
+print_message("Because it's HARDware!",3);
+return (1);
+}
+

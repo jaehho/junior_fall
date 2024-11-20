@@ -1,0 +1,9 @@
+int main(void){
+clear();
+print_message("CCCCCCCCCCCCCCCCCCCCCC",0);
+print_message("HE'S EATING GHOSTS",1);
+print_message("WHO?!",2);
+print_message(" C ",3);
+return (1);
+}
+

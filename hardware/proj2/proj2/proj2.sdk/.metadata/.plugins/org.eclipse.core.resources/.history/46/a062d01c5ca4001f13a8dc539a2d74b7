@@ -1,0 +1,7 @@
+int main(void){
+
+	print_message("Who's there?",2);
+	print_message("We'll never know",3);
+	return (1);
+}
+

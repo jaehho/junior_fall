@@ -1,0 +1,8 @@
+int main(void){
+clear();
+print_message("What's funnier than 24?",0);
+print_message("Lemme hear it",1);
+print_message("25",2);
+return (1);
+}
+

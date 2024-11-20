@@ -1,0 +1,9 @@
+int main(void){
+clear();
+print_message("   | m m |",0);
+print_message("   | 0 0 |",1);
+print_message("   | WWW |  - Ghost",2);
+print_message("   |.....|  - AA",3);
+return (1);
+}
+

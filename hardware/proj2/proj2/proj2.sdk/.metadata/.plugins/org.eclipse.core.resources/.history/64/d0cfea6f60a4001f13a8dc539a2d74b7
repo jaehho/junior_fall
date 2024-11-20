@@ -1,0 +1,10 @@
+int main(void){
+clear();
+print_message("Knock knock",0);
+print_message("Who's there?",1);
+print_message("Who",2);
+print_message("Who's who?",3);
+print_message("you messed it up",4);
+return (1);
+}
+

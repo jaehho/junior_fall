@@ -1,0 +1,8 @@
+int main(void){
+clear();
+print_message("Where's ware?",0);
+print_message("Who's ware?",2);
+print_message("Hard",3);
+return (1);
+}
+

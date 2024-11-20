@@ -1,0 +1,33 @@
+19:52:09 **** Incremental Build of configuration Debug for project oled_test ****
+make pre-build main-build 
+a9-linaro-pre-build-step
+ 
+Building file: ../src/oled_test.c
+Invoking: ARM v7 gcc compiler
+arm-none-eabi-gcc -Wall -O0 -g3 -c -fmessage-length=0 -MT"src/oled_test.o" -mcpu=cortex-a9 -mfpu=vfpv3 -mfloat-abi=hard -I../../oled_test_bsp/ps7_cortexa9_0/include -MMD -MP -MF"src/oled_test.d" -MT"src/oled_test.o" -o "src/oled_test.o" "../src/oled_test.c"
+../src/oled_test.c: In function 'main':
+../src/oled_test.c:3:2: warning: implicit declaration of function 'clear' [-Wimplicit-function-declaration]
+  clear();
+  ^~~~~
+../src/oled_test.c:5:2: warning: implicit declaration of function 'print_message' [-Wimplicit-function-declaration]
+  print_message("Prof Hoerning" ,0);
+  ^~~~~~~~~~~~~
+../src/oled_test.c:10:2: warning: implicit declaration of function 'sleep' [-Wimplicit-function-declaration]
+  sleep(3);
+  ^~~~~
+Finished building: ../src/oled_test.c
+ 
+Building target: oled_test.elf
+Invoking: ARM v7 gcc linker
+arm-none-eabi-gcc -mcpu=cortex-a9 -mfpu=vfpv3 -mfloat-abi=hard -Wl,-build-id=none -specs=Xilinx.spec -Wl,-T -Wl,../src/lscript.ld -L../../oled_test_bsp/ps7_cortexa9_0/lib -o "oled_test.elf"  ./src/helloworld.o ./src/oled_test.o ./src/platform.o   -Wl,--start-group,-lxil,-lgcc,-lc,--end-group
+Finished building target: oled_test.elf
+ 
+Invoking: ARM v7 Print Size
+arm-none-eabi-size oled_test.elf  |tee "oled_test.elf.size"
+   text	   data	    bss	    dec	    hex	filename
+  30348	   1544	  23512	  55404	   d86c	oled_test.elf
+Finished building: oled_test.elf.size
+ 
+
+19:52:10 Build Finished (took 264ms)
+
