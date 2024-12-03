@@ -1,0 +1,401 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      -->
+<title>main</title>
+<meta name="generator" content="MATLAB 24.2">
+<link rel="schema.DC" href="http://purl.org/dc/elements/1.1/">
+<meta name="DC.date" content="2024-11-22">
+<meta name="DC.source" content="main.m">
+<style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; }
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+span.typesection { color:#A0522D }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style>
+</head>
+<body>
+<div class="content">
+<pre class="codeinput">
+<span class="comment">% Function to count multiplications</span>
+<span class="keyword">function</span> mult_count = count_multiplies(b, a, is_fir, M)
+    <span class="keyword">if</span> is_fir
+        mult_count = ceil((length(b) - 1) / M);
+    <span class="keyword">else</span>
+        mult_count = length(b) + length(a) - 1;
+    <span class="keyword">end</span>
+<span class="keyword">end</span>
+
+<span class="comment">% Function to find optimal passband frequency</span>
+<span class="keyword">function</span> [is_fir, opt_Fp, opt_b, opt_a] = find_optimal_fp(filter_type, fs_stop, nyq, rp, rs, gain, M)
+    Fp_min = 1000;  <span class="comment">% Minimum passband frequency</span>
+    Fp_max = fs_stop;
+    opt_Fp = Fp_min;
+    opt_b = [];
+    opt_a = [];
+
+    <span class="keyword">while</span> (Fp_max - Fp_min) &gt; 1
+        fp_test = (Fp_min + Fp_max) / 2;
+        wp_test = fp_test / nyq;
+        ws = fs_stop / nyq;
+
+        <span class="comment">% Design filter based on type</span>
+        <span class="keyword">switch</span> filter_type
+            <span class="keyword">case</span> <span class="string">'Butterworth'</span>
+                [n, wn] = buttord(wp_test, ws - 500 / nyq, rp, 55);
+                [b, a] = butter(n, wn);
+                is_fir = false;
+            <span class="keyword">case</span> <span class="string">'Chebyshev1'</span>
+                [n, wn] = cheb1ord(wp_test, ws, rp, rs);
+                [b, a] = cheby1(n, rp, wn);
+                is_fir = false;
+            <span class="keyword">case</span> <span class="string">'Chebyshev2'</span>
+                [n, wn] = cheb2ord(wp_test, ws, rp, rs);
+                [b, a] = cheby2(n, rs, wn);
+                is_fir = false;
+            <span class="keyword">case</span> <span class="string">'Elliptic'</span>
+                [n, wn] = ellipord(wp_test, ws, rp, rs);
+                [b, a] = ellip(n, rp, rs, wn);
+                is_fir = false;
+            <span class="keyword">case</span> <span class="string">'Parks-McClellan'</span>
+                fp = 100;
+                Dpass = 0.10099735734; <span class="comment">% Maximum allowable passband deviation</span>
+                Dstop = 2.1134890398e-05; <span class="comment">% Maximum allowable stopband deviation</span>
+                dens = 20; <span class="comment">% Grid density for filter optimization</span>
+                [n, Fo, Ao, W] = firpmord([fp, fs_stop] / nyq, [1 0], [Dpass, Dstop]);
+                b = firpm(n, Fo, Ao, W, {dens});
+                opt_Fp = fp;
+                opt_a = 1;
+                opt_b = b * (gain + 50);
+                is_fir = true;
+                <span class="keyword">return</span>;
+            <span class="keyword">case</span> <span class="string">'Kaiser'</span>
+                fp = 100;
+                Dpass = 0.17099735734; <span class="comment">% Maximum allowable passband deviation</span>
+                Dstop = 2.1134890398e-05; <span class="comment">% Maximum allowable stopband deviation</span>
+                [n, wn, beta, type] = kaiserord([fp fs_stop] / nyq, [1 0], [Dstop Dpass]);
+                b = fir1(n, wn, type, kaiser(n + 1, beta));
+                opt_Fp = fp;
+                opt_a = 1;
+                opt_b = b * gain;
+                is_fir = true;
+                <span class="keyword">return</span>;
+        <span class="keyword">end</span>
+
+        <span class="comment">% Apply gain to filter coefficients</span>
+        b = b * gain;
+
+        <span class="comment">% Check multiplication constraints</span>
+        <span class="keyword">if</span> count_multiplies(b, a, is_fir, M) &lt;= 17
+            Fp_min = fp_test;
+            <span class="keyword">if</span> fp_test &gt; opt_Fp
+                opt_Fp = fp_test;
+                opt_b = b;
+                opt_a = a;
+            <span class="keyword">end</span>
+        <span class="keyword">else</span>
+            Fp_max = fp_test;
+        <span class="keyword">end</span>
+    <span class="keyword">end</span>
+<span class="keyword">end</span>
+</pre>
+<pre class="codeoutput">Passband frequency: 1611.6 Hz
+Number of multiplies: 17.0
+
+Chebyshev1
+Passband frequency: 1811.5 Hz
+Number of multiplies: 17.0
+
+Chebyshev2
+Passband frequency: 1811.5 Hz
+Number of multiplies: 17.0
+
+Elliptic
+Passband frequency: 2924.8 Hz
+Number of multiplies: 17.0
+
+Parks-McClellan
+Passband frequency: 100.0 Hz
+Number of multiplies: 8.0
+
+Kaiser
+Passband frequency: 100.0 Hz
+Number of multiplies: 17.0
+</pre>
+<img vspace="5" hspace="5" src="main_01.png" alt=""> <img vspace="5" hspace="5" src="main_02.png" alt=""> <img vspace="5" hspace="5" src="main_03.png" alt=""> <img vspace="5" hspace="5" src="main_04.png" alt=""> <img vspace="5" hspace="5" src="main_05.png" alt=""> <img vspace="5" hspace="5" src="main_06.png" alt=""> <img vspace="5" hspace="5" src="main_07.png" alt=""> <img vspace="5" hspace="5" src="main_08.png" alt=""> <img vspace="5" hspace="5" src="main_09.png" alt=""> <img vspace="5" hspace="5" src="main_10.png" alt=""> <img vspace="5" hspace="5" src="main_11.png" alt=""> <img vspace="5" hspace="5" src="main_12.png" alt=""> <pre class="codeinput">clc; clear; close <span class="string">all</span>;
+load <span class="string">projIB.mat</span>
+
+FsIn = 44100; <span class="comment">% Input Sampling frequency</span>
+
+<span class="comment">% Filter Specifications</span>
+max_multiplications = 17;
+<span class="comment">% Fp = 4000; % Passband edge (Hz)</span>
+Fst = 4000; <span class="comment">% Stopband edge (Hz)</span>
+max_gain_passband = 40; <span class="comment">% (dB)</span>
+min_gain_passband = 37; <span class="comment">% (dB)</span>
+max_gain_stopband = -55; <span class="comment">% (dB)</span>
+
+Ast = max_gain_passband - max_gain_stopband; <span class="comment">% Stopband Attenuation (dB)</span>
+Rp = max_gain_passband - min_gain_passband; <span class="comment">% Passband Ripple (dB)</span>
+
+gain = 10^(min_gain_passband/20); <span class="comment">% Minimum Linear Gain</span>
+nyq = FsIn / 2; <span class="comment">% Nyquist frequency</span>
+M = 4; <span class="comment">% Downsampling factor</span>
+
+filter_types = {<span class="string">'Butterworth'</span>, <span class="string">'Chebyshev1'</span>, <span class="string">'Chebyshev2'</span>, <span class="string">'Elliptic'</span>, <span class="string">'Parks-McClellan'</span>, <span class="string">'Kaiser'</span>};
+
+<span class="keyword">for</span> i = 1:length(filter_types)
+    fprintf(<span class="string">'\n%s\n'</span>, filter_types{i});
+
+    <span class="comment">% Find optimal filter parameters</span>
+    [is_fir, fp, b, a] = find_optimal_fp(filter_types{i}, Fst, nyq, Rp, Ast, gain, M);
+    <span class="keyword">if</span> is_fir
+        current_filter = dsp.FIRFilter(b);
+    <span class="keyword">else</span>
+        current_filter = dsp.IIRFilter(b,a);
+    <span class="keyword">end</span>
+
+    <span class="comment">% Frequency response</span>
+    figure; freqz(current_filter);
+
+    <span class="comment">% Apply filtering and downsampling</span>
+    output = current_filter(noisy);
+    downsampled_signal = downsample(output,M);
+
+    <span class="comment">% Count multiplications</span>
+    mults = count_multiplies(b, a, is_fir, M);
+    fprintf(<span class="string">'Passband frequency: %.1f Hz\n'</span>, fp);
+    fprintf(<span class="string">'Number of multiplies: %.1f\n'</span>, mults);
+    <span class="comment">% cost(current_filter)</span>
+    <span class="comment">% measure(current_filter)</span>
+
+    <span class="comment">% Plot time-domain response</span>
+    figure;
+    plot((1:length(downsampled_signal)) / (FsIn/M), downsampled_signal);
+    grid <span class="string">on</span>;
+    title(<span class="string">'Time Domain Response'</span>);
+    xlabel(<span class="string">'Time (s)'</span>);
+    ylabel(<span class="string">'Amplitude'</span>);
+
+    <span class="comment">% Play output</span>
+    soundsc(downsampled_signal, FsIn/M);
+    pause(length(downsampled_signal) / (FsIn/M) + 1);
+<span class="keyword">end</span>
+</pre>
+<pre class="codeoutput">
+Butterworth
+</pre>
+<p class="footer">
+<br>
+<a href="https://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2024b</a>
+<br>
+</p>
+</div>
+<!--
+##### SOURCE BEGIN #####
+% Function to count multiplications
+function mult_count = count_multiplies(b, a, is_fir, M)
+    if is_fir
+        mult_count = ceil((length(b) - 1) / M);
+    else
+        mult_count = length(b) + length(a) - 1;
+    end
+end
+
+% Function to find optimal passband frequency
+function [is_fir, opt_Fp, opt_b, opt_a] = find_optimal_fp(filter_type, fs_stop, nyq, rp, rs, gain, M)
+    Fp_min = 1000;  % Minimum passband frequency
+    Fp_max = fs_stop;
+    opt_Fp = Fp_min;
+    opt_b = [];
+    opt_a = [];
+    
+    while (Fp_max - Fp_min) > 1
+        fp_test = (Fp_min + Fp_max) / 2;
+        wp_test = fp_test / nyq;
+        ws = fs_stop / nyq;
+        
+        % Design filter based on type
+        switch filter_type
+            case 'Butterworth'
+                [n, wn] = buttord(wp_test, ws - 500 / nyq, rp, 55);
+                [b, a] = butter(n, wn);
+                is_fir = false;
+            case 'Chebyshev1'
+                [n, wn] = cheb1ord(wp_test, ws, rp, rs);
+                [b, a] = cheby1(n, rp, wn);
+                is_fir = false;
+            case 'Chebyshev2'
+                [n, wn] = cheb2ord(wp_test, ws, rp, rs);
+                [b, a] = cheby2(n, rs, wn);
+                is_fir = false;
+            case 'Elliptic'
+                [n, wn] = ellipord(wp_test, ws, rp, rs);
+                [b, a] = ellip(n, rp, rs, wn);
+                is_fir = false;
+            case 'Parks-McClellan'
+                fp = 100;
+                Dpass = 0.10099735734; % Maximum allowable passband deviation
+                Dstop = 2.1134890398e-05; % Maximum allowable stopband deviation
+                dens = 20; % Grid density for filter optimization
+                [n, Fo, Ao, W] = firpmord([fp, fs_stop] / nyq, [1 0], [Dpass, Dstop]);
+                b = firpm(n, Fo, Ao, W, {dens});
+                opt_Fp = fp;
+                opt_a = 1;
+                opt_b = b * (gain + 50);
+                is_fir = true;
+                return;
+            case 'Kaiser'
+                fp = 100;
+                Dpass = 0.17099735734; % Maximum allowable passband deviation
+                Dstop = 2.1134890398e-05; % Maximum allowable stopband deviation
+                [n, wn, beta, type] = kaiserord([fp fs_stop] / nyq, [1 0], [Dstop Dpass]);
+                b = fir1(n, wn, type, kaiser(n + 1, beta));
+                opt_Fp = fp;
+                opt_a = 1;
+                opt_b = b * gain;
+                is_fir = true;
+                return;
+        end
+        
+        % Apply gain to filter coefficients
+        b = b * gain;
+        
+        % Check multiplication constraints
+        if count_multiplies(b, a, is_fir, M) <= 17
+            Fp_min = fp_test;
+            if fp_test > opt_Fp
+                opt_Fp = fp_test;
+                opt_b = b;
+                opt_a = a;
+            end
+        else
+            Fp_max = fp_test;
+        end
+    end
+end
+%%
+
+clc; clear; close all;
+load projIB.mat
+
+FsIn = 44100; % Input Sampling frequency
+
+% Filter Specifications
+max_multiplications = 17;
+% Fp = 4000; % Passband edge (Hz)
+Fst = 4000; % Stopband edge (Hz)
+max_gain_passband = 40; % (dB)
+min_gain_passband = 37; % (dB)
+max_gain_stopband = -55; % (dB)
+
+Ast = max_gain_passband - max_gain_stopband; % Stopband Attenuation (dB)
+Rp = max_gain_passband - min_gain_passband; % Passband Ripple (dB)
+
+gain = 10^(min_gain_passband/20); % Minimum Linear Gain
+nyq = FsIn / 2; % Nyquist frequency
+M = 4; % Downsampling factor
+
+filter_types = {'Butterworth', 'Chebyshev1', 'Chebyshev2', 'Elliptic', 'Parks-McClellan', 'Kaiser'};
+
+for i = 1:length(filter_types)
+    fprintf('\n%s\n', filter_types{i});
+    
+    % Find optimal filter parameters
+    [is_fir, fp, b, a] = find_optimal_fp(filter_types{i}, Fst, nyq, Rp, Ast, gain, M);
+    if is_fir
+        current_filter = dsp.FIRFilter(b);
+    else
+        current_filter = dsp.IIRFilter(b,a);
+    end
+
+    % Frequency response
+    figure; freqz(current_filter);
+    
+    % Apply filtering and downsampling
+    output = current_filter(noisy);
+    downsampled_signal = downsample(output,M);
+    
+    % Count multiplications
+    mults = count_multiplies(b, a, is_fir, M);
+    fprintf('Passband frequency: %.1f Hz\n', fp);
+    fprintf('Number of multiplies: %.1f\n', mults);
+    % cost(current_filter)
+    % measure(current_filter)
+    
+    % Plot time-domain response
+    figure;
+    plot((1:length(downsampled_signal)) / (FsIn/M), downsampled_signal);
+    grid on;
+    title('Time Domain Response');
+    xlabel('Time (s)');
+    ylabel('Amplitude');
+    
+    % Play output
+    soundsc(downsampled_signal, FsIn/M);
+    pause(length(downsampled_signal) / (FsIn/M) + 1);
+end
+##### SOURCE END #####
+-->
+</body>
+</html>
