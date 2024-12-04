@@ -1,0 +1,17 @@
+pandas
+# numpy version<2 for scikit-surprise
+numpy<2
+scikit-surprise
+openpyxl
+
+matplotlib
+plotly
+scikit-learn
+seaborn
+xgboost
+kagglehub
+shap
+optuna
+graphviz
+ipywidgets
+requests
