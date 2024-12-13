@@ -6,7 +6,7 @@ image_path = "./image.jpg"
 image = Image.open(image_path)
 
 # Resize the image to 1920x1080
-resized_image = image.resize((1920, 1080))
+resized_image = image.resize((512, 512))
 
 # Convert the image to grayscale
 grayscale_image = resized_image.convert("L")
