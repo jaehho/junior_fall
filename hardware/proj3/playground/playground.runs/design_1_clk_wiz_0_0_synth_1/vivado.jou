@@ -1,0 +1,24 @@
+#-----------------------------------------------------------
+# Vivado v2024.1.2 (64-bit)
+# SW Build 5164865 on Thu Sep  5 14:37:11 MDT 2024
+# IP Build 5164407 on Fri Sep  6 08:18:11 MDT 2024
+# SharedData Build 5164864 on Thu Sep 05 13:09:09 MDT 2024
+# Start of session at: Fri Dec 13 14:24:12 2024
+# Process ID: 26828
+# Current directory: C:/Users/jaeho/junior_fall/hardware/proj3/playground/playground.runs/design_1_clk_wiz_0_0_synth_1
+# Command line: vivado.exe -log design_1_clk_wiz_0_0.vds -product Vivado -mode batch -messageDb vivado.pb -notrace -source design_1_clk_wiz_0_0.tcl
+# Log file: C:/Users/jaeho/junior_fall/hardware/proj3/playground/playground.runs/design_1_clk_wiz_0_0_synth_1/design_1_clk_wiz_0_0.vds
+# Journal file: C:/Users/jaeho/junior_fall/hardware/proj3/playground/playground.runs/design_1_clk_wiz_0_0_synth_1\vivado.jou
+# Running On        :MSI
+# Platform          :Windows Server 2016 or Windows 10
+# Operating System  :26100
+# Processor Detail  :11th Gen Intel(R) Core(TM) i7-11800H @ 2.30GHz
+# CPU Frequency     :2304 MHz
+# CPU Physical cores:8
+# CPU Logical cores :16
+# Host memory       :16866 MB
+# Swap memory       :19327 MB
+# Total Virtual     :36194 MB
+# Available Virtual :6954 MB
+#-----------------------------------------------------------
+source design_1_clk_wiz_0_0.tcl -notrace
