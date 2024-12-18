@@ -1,0 +1,114 @@
+% $ biblatex auxiliary file $
+% $ biblatex bbl format version 3.2 $
+% Do not modify the above lines!
+%
+% This is an auxiliary file used by the 'biblatex' package.
+% This file may safely be deleted. It will be recreated by
+% biber as required.
+%
+\begingroup
+\makeatletter
+\@ifundefined{ver@biblatex.sty}
+  {\@latex@error
+     {Missing 'biblatex' package}
+     {The bibliography requires the 'biblatex' package.}
+      \aftergroup\endinput}
+  {}
+\endgroup
+
+
+\refsection{0}
+  \datalist[entry]{none/global//global/global}
+    \entry{noauthor_zedboard_nodate}{online}{}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labeltitlesource}{title}
+      \field{abstract}{{ZedBoard}™ is a complete development kit for designers interested in exploring designs using the {AMD} Xilinx Zynq®-7000 All Programmable {SoC}.}
+      \field{langid}{english}
+      \field{title}{{ZedBoard} {|} Avnet Boards}
+      \field{urlday}{16}
+      \field{urlmonth}{12}
+      \field{urlyear}{2024}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://www.avnet.com/wps/portal/us/products/avnet-boards/avnet-board-families/zedboard/
+      \endverb
+      \verb{url}
+      \verb https://www.avnet.com/wps/portal/us/products/avnet-boards/avnet-board-families/zedboard/
+      \endverb
+    \endentry
+    \entry{noauthor_vipinkmenonvga_nodate}{online}{}
+      \field{sortinit}{3}
+      \field{sortinithash}{ad6fe7482ffbd7b9f99c9e8b5dccd3d7}
+      \field{labeltitlesource}{title}
+      \field{title}{vipinkmenon/vga: Tutorial}
+      \field{urlday}{16}
+      \field{urlmonth}{12}
+      \field{urlyear}{2024}
+      \field{urldateera}{ce}
+      \verb{file}
+      \verb vipinkmenon/vga\: Tutorial:C\:\\Users\\jaeho\\Zotero\\storage\\TD53G9H3\\master.html:text/html
+      \endverb
+      \verb{urlraw}
+      \verb https://github.com/vipinkmenon/vga/tree/master
+      \endverb
+      \verb{url}
+      \verb https://github.com/vipinkmenon/vga/tree/master
+      \endverb
+    \endentry
+    \entry{noauthor_using_nodate}{online}{}
+      \field{sortinit}{4}
+      \field{sortinithash}{9381316451d1b9788675a07e972a12a7}
+      \field{labeltitlesource}{title}
+      \field{title}{Using the Zynq {SoC} Processing System — Embedded Design Tutorials 2023.1 documentation}
+      \field{urlday}{11}
+      \field{urlmonth}{12}
+      \field{urlyear}{2024}
+      \field{urldateera}{ce}
+      \verb{file}
+      \verb Using the Zynq SoC Processing System — Embedded Design Tutorials 2023.1 documentation:C\:\\Users\\jaeho\\Zotero\\storage\\LMDGF8EL\\2-using-zynq.html:text/html
+      \endverb
+      \verb{urlraw}
+      \verb https://xilinx.github.io/Embedded-Design-Tutorials/docs/2023.1/build/html/docs/Introduction/Zynq7000-EDT/2-using-zynq.html
+      \endverb
+      \verb{url}
+      \verb https://xilinx.github.io/Embedded-Design-Tutorials/docs/2023.1/build/html/docs/Introduction/Zynq7000-EDT/2-using-zynq.html
+      \endverb
+    \endentry
+    \entry{rick_astley_rick_2009}{video}{}
+      \name{author}{1}{}{%
+        {{hash=6ce940b92d428be8084c0dfc03fb4484}{%
+           family={{Rick Astley}},
+           familyi={R\bibinitperiod}}}%
+      }
+      \strng{namehash}{6ce940b92d428be8084c0dfc03fb4484}
+      \strng{fullhash}{6ce940b92d428be8084c0dfc03fb4484}
+      \strng{bibnamehash}{6ce940b92d428be8084c0dfc03fb4484}
+      \strng{authorbibnamehash}{6ce940b92d428be8084c0dfc03fb4484}
+      \strng{authornamehash}{6ce940b92d428be8084c0dfc03fb4484}
+      \strng{authorfullhash}{6ce940b92d428be8084c0dfc03fb4484}
+      \field{sortinit}{6}
+      \field{sortinithash}{b33bc299efb3c36abec520a4c896a66d}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{abstract}{The official video for “Never Gonna Give You Up” by Rick Astley. Never: The Autobiography 📚 {OUT} {NOW}! Follow this link to get your copy and listen to Rick’s ‘Never’ playlist ❤️ \#{RickAstleyNever} https://linktr.ee/rickastleynever “Never Gonna Give You Up” was a global smash on its release in July 1987, topping the charts in 25 countries including Rick’s native {UK} and the {US} Billboard Hot 100. It also won the Brit Award for Best single in 1988. Stock Aitken and Waterman wrote and produced the track which was the lead-off single and lead track from Rick’s debut {LP} “Whenever You Need Somebody”. The album was itself a {UK} number one and would go on to sell over 15 million copies worldwide. The legendary video was directed by Simon West – who later went on to make Hollywood blockbusters such as Con Air, Lara Croft – Tomb Raider and The Expendables 2. The video passed the 1bn {YouTube} views milestone on 28 July 2021. Subscribe to the official Rick Astley {YouTube} channel: https://{RickAstley}.lnk.to/{YTSubID} Follow Rick Astley: Facebook: https://{RickAstley}.lnk.to/{FBFollowID} Twitter: https://{RickAstley}.lnk.to/{TwitterID} Instagram: https://{RickAstley}.lnk.to/{InstagramID} Website: https://{RickAstley}.lnk.to/{storeID} {TikTok}: https://{RickAstley}.lnk.to/{TikTokID} Listen to Rick Astley: Spotify: https://{RickAstley}.lnk.to/{SpotifyID} Apple Music: https://{RickAstley}.lnk.to/{AppleMusicID} Amazon Music: https://{RickAstley}.lnk.to/{AmazonMusicID} Deezer: https://{RickAstley}.lnk.to/{DeezerID} Lyrics: We’re no strangers to love You know the rules and so do I A full commitment’s what I’m thinking of You wouldn’t get this from any other guy I just wanna tell you how I’m feeling Gotta make you understand Never gonna give you up Never gonna let you down Never gonna run around and desert you Never gonna make you cry Never gonna say goodbye Never gonna tell a lie and hurt you We’ve known each other for so long Your heart’s been aching but you’re too shy to say it Inside we both know what’s been going on We know the game and we’re gonna play it And if you ask me how I’m feeling Don’t tell me you’re too blind to see Never gonna give you up Never gonna let you down Never gonna run around and desert you Never gonna make you cry Never gonna say goodbye Never gonna tell a lie and hurt you \#{RickAstley} \#{NeverGonnaGiveYouUp} \#{WheneverYouNeedSomebody} \#{OfficialMusicVideo}}
+      \field{day}{25}
+      \field{month}{10}
+      \field{title}{Rick Astley - Never Gonna Give You Up (Official Music Video)}
+      \field{urlday}{16}
+      \field{urlmonth}{12}
+      \field{urlyear}{2024}
+      \field{year}{2009}
+      \field{dateera}{ce}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://www.youtube.com/watch?v=dQw4w9WgXcQ
+      \endverb
+      \verb{url}
+      \verb https://www.youtube.com/watch?v=dQw4w9WgXcQ
+      \endverb
+    \endentry
+  \enddatalist
+\endrefsection
+\endinput
+
